@@ -25,6 +25,28 @@
   }
 }
 
+.table-show {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.user-table {
+  vertical-align: middle;
+  text-align: center;  
+  font-weight: bold;
+}
+
+.s-tbl {
+	border-collapse: collapse;
+}
+.s-tbl th, .s-tbl td {
+	border: 1px solid #000;
+}
+.s-tbl tr:nth-child(even) {
+	background: #eee;
+}
+
+
 /* 入力フォーム */
 
 .label-signup {
@@ -37,6 +59,10 @@
 
 .label-user--edit {
   margin-top: 5px;
+}
+
+.text-label {
+  background-color: #FFFF99;
 }
 
 .btn-user--edit {
@@ -60,4 +86,24 @@
 .btn-basic-info {
   margin: 15px 0;
   width: 30%;
+}
+
+/* 検索フォーム */
+
+.p-search {
+  text-align: right;
+  margin-right: 105px;
+  font-weight: bold;
+}
+
+.text-search {
+  display: inline;
+  width: 150px;
+  float: right;
+  margin-right: 10px;
+}
+
+.btn-search {
+  display: inline;
+  float: right;
 }

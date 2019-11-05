@@ -50,6 +50,11 @@ p {
   line-height: 1.7em;
 }
 
+p:hover .hover{
+  display: inline;
+  color: primary;
+}
+
 /* header */
 
 #logo {
@@ -102,3 +107,4 @@ p {
 .modal-dialog-center {
   padding-top: 10%;
 }
+
