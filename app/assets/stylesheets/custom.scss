@@ -85,6 +85,28 @@ p:hover .hover{
   box-sizing:         border-box;
 }
 
+footer.bordered-line {
+  border-top: 1px solid #C0C0C0;
+  padding-bottom: 35px;
+}
+
+footer.bordered-line2 {
+  border-top: 1px solid #C0C0C0;
+}
+
+.footer-p {
+  padding-bottom: 10px;
+  color: #555555;
+}
+
+.footer-li {
+  float: right;
+  list-style: none;
+  padding-bottom: 100px;
+  padding-right: 25px;
+  color: #555555;
+}
+
 /* error_messages */
 
 #error_explanation {
