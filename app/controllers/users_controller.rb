@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   before_action :admin_or_correct_user, only: :show
   
   def index
-    @users = query.paginate(page: params[:page])
+    @users = set_search.paginate(page: params[:page])
   end
   
   def show
@@ -50,7 +50,7 @@ class UsersController < ApplicationController
   end
   
   def search
-    @users = query.paginate(page: params[:page])
+    @users = set_search.paginate(page: params[:page])
   end  
   
   def edit_basic_info
@@ -71,7 +71,7 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :email, :department, :password, :password_confirmation)
     end
     
-    def query
+    def set_search
       if params[:user].present? && params[:user][:name]
         User.where('name LIKE ?', "%#{params[:user][:name]}%")
       else
