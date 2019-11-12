@@ -268,3 +268,50 @@ DEPENDENCIES
 
 BUNDLED WITH
    1.17.3
+
+#2019 11/12
+<%= l(day.worked_on, format: :short) %>
+
+          <td>
+            <% if day.worked_on.wday == 6 %>
+              <font color="blue">土</font>
+            <% elsif day.worked_on.wday == 0 %>
+              <font color="red">日</font>
+            <% elsif day.worked_on.wday == 1 %>
+              <font color="black">月</font>
+            <% elsif day.worked_on.wday == 2 %>
+              <font color="black">火</font>
+            <% elsif day.worked_on.wday == 3 %>
+              <font color="black">水</font>
+            <% elsif day.worked_on.wday == 4 %>
+              <font color="black">木</font>
+            <% elsif day.worked_on.wday == 5 %>
+              <font color="black">金</font>
+            <% end %>            
+          </td>
+          <td><%= l(day.started_at, format: :hour) if day.started_at.present? %></td>
+          <td><%= l(day.started_at.floor_to(15.minutes), format: :minit) if day.started_at.present? %></td>
+          <td>
+            <% if day.worked_on == Date.today && day.started_at.nil? %>
+              <%= button_to "出社", user_attendance_path(@user, day), method: :patch, class: "btn btn-default btn-block btn-primary btn-attendance" %>
+            <% end %>
+          </td>
+          <td><%= l(day.finished_at, format: :hour) if day.finished_at.present? %></td>
+          <td><%= l(day.finished_at.floor_to(15.minutes), format: :minit) if day.finished_at.present? %></td>
+          <td>
+            <% if day.worked_on == Date.today && day.started_at.present? && day.finished_at.blank? %>
+              <%= button_to "退社", user_attendance_path(@user, day), method: :patch, class: "btn btn-default btn-block btn-primary btn-attendance" %>
+            <% end %>  
+          </td>
+          <td>
+            <% if day.started_at.present? && day.finished_at.present? %>
+              <%= str_times = working_times(day.started_at, day.finished_at) %>
+              <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
+            <% end %>
+          </td>
+          <td><%= day.note %></td>
+          <td></td>
+          <td></td>
+        </tr>
+      <% end %>
+    </tbody>
