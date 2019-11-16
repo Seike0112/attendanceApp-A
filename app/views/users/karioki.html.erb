@@ -315,3 +315,18 @@ BUNDLED WITH
         </tr>
       <% end %>
     </tbody>
+    
+    2019 11/13
+    session_controller def create
+    redirect_back_or user
+    
+    2019 11/16
+            <a><br>
+          <button type="button" class="btn btn-primary" data-toggle="collapse" href="#edit-user<%= user.id %>">編集</button>
+          <div id="edit-user<%= user.id %>" class="collapse">
+            <%= render 'form_user_index', user: user %>
+          </div>
+        </a>
+        
+        <!--モーダルウインドウ表示-->
+<div id="edit-basic-info" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>

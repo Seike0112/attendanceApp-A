@@ -1,13 +1,11 @@
 <% provide(:title, 'All Users') %>
-<h1>ユーザー一覧</h1>
+<h1>ユーザ一覧</h1>
 
 <%= render 'search' %>
 
 <div class="col-md-10 col-md-offset-1">
   <%= will_paginate %>
-    <%= render 'index_user' %>
+    <%= render 'index_user', user: @user %>
   <%= will_paginate %>
 </div>
 
-<!--モーダルウインドウ表示-->
-<div id="edit-basic-info" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
