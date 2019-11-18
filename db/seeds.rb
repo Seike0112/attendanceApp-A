@@ -10,13 +10,13 @@ User.create!(name: "上長１",
              email: "sample-3@email.com",
              password: "password",
              password_confirmation: "password",
-             admin: true)
+             superior: true)
              
 User.create!(name: "上長２",
              email: "sample-4@email.com",
              password: "password",
              password_confirmation: "password",
-             admin: true)
+             superior: true)
              
 
 2.times do |n|
