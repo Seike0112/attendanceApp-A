@@ -6,8 +6,8 @@
   <table class="table table-bordered table-condensed" id="table-attendances">
     <tr class="user-table">
       <td><%= link_to "←️", user_path(date: @first_day.prev_month), class: "table-show btn btn-sm btn-default btn-primary" %>　<%= l(@first_day, format: :middle) %>  勤怠管理表　<%= link_to "→", user_path(date: @first_day.next_month), class: "btn btn-sm btn-default  btn-primary" %></td>
-      <td colspan="2" class="center">指定勤務開始時間　：　<br>
-                         指定勤務終了時間　：　      
+      <td colspan="2" class="center">指定勤務開始時間  　<br>
+                         指定勤務終了時間　    
       </td>
       <td colspan="2">基本時間　<%= format_basic_info(@user.basic_time) %></td>
       <td>初日　<%= l(@first_day, format: :short) %></td>
@@ -32,7 +32,7 @@
 
 <div class="btn-users-show btn-attendance-a">
   <%= link_to "勤怠の編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-default  btn-primary" %>
-  <%= link_to "CSV出力",'#', class: "btn btn-default  btn-primary" %>
+  <%= link_to "CSVの出力", users_path(format: :csv), class: "btn btn-primary" %> 
 </div>
 <div class="btn-users-show">
   <%= link_to "勤怠修正ログ（承認済み）",'#', class: "btn btn-default  btn-primary" %>

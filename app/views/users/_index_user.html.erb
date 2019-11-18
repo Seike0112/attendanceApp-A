@@ -7,14 +7,14 @@
   
         <!-- 管理者の場合、削除編集ボタンを表示させる -->
           <br> | 
-          <a data-confirm="削除してよろしいですか？" class="btn btn-danger" rel="nofollow" data-method="delete" href="/users/8">削除</a>
+          <a data-confirm="削除してよろしいですか？" class="btn btn-primary" rel="nofollow" data-method="delete" href="/users/8">削除</a>
   
           <div class="panel-group">
             <div class="panel panel-default">
               <div class="panel-heading">
                 <!--  編集ボタン -->
-                <button type="button" class="btn btn-success" data-toggle="collapse" data-target="#collapseExample8" aria-expanded="false" aria-controls="collapseExample">基本情報編集</button>
-                <div class="collapse" id="collapseExample8">
+                <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#user-index-edit<%= user.id %>" aria-expanded="false" aria-controls="collapseExample">編集</button>
+                <div class="collapse" id="user-index-edit<%= user.id %>">
                   <div class="row">
                     <div class="col-md-6 col-md-offset-3">     　
                     　<!-- submitすると、update_basic_info_user_pathの処理が行われる -->

@@ -9,7 +9,12 @@ ja:
           name: 名前
           email: メールアドレス
           department: 所属
-          basic_time: 基本時間
+          employee_number: 社員番号
+          u_id: カードID
+          designated_work_start_time: 指定勤務開始時間
+          designated_work_end_time: 指定時間終了時間
+          superior: 上長
+          basic_time: 基本勤務時間
           work_time: 勤務時間
           password: パスワード
           password_confirmation: パスワード再入力
@@ -21,3 +26,4 @@ ja:
           finished_at: 退勤時間
           note: 備考
           user: ユーザーID
+          
