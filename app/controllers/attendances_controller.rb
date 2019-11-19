@@ -1,6 +1,5 @@
 include AttendancesHelper
 class AttendancesController < ApplicationController
-  class AttendancesController < UsersController
   
   
   before_action :set_user, only: [:edit_one_month, :update_one_month, :index]
@@ -52,9 +51,6 @@ class AttendancesController < ApplicationController
       redirect_to attendances_edit_one_month_user_url(date: params[:date])
   end
   
-  def index
-    
-  end
 
   private
 
@@ -73,5 +69,4 @@ class AttendancesController < ApplicationController
         redirect_to(root_url)
       end  
     end
-  end
 end

@@ -9,11 +9,13 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   
-  # 出勤中社員一覧
+
   
   resources :users do 
     collection do
       get '/search', to: 'users#search' 
+      # 出勤中社員一覧
+      get '/working_users', to: 'users#working_users'
     end
     member do
       get 'edit_basic_info'

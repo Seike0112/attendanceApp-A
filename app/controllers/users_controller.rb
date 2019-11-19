@@ -63,6 +63,11 @@ class UsersController < ApplicationController
     @users = set_search.paginate(page: params[:page])
   end  
   
+  def working_users
+    @users = User.all
+    @attendances = Attendance.all
+  end  
+  
   def edit_basic_info
   end
   
@@ -83,6 +88,7 @@ class UsersController < ApplicationController
       render :index
     end
   end
+  
   
   private
   
