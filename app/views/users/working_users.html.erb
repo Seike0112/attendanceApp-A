@@ -1,41 +1,37 @@
 <div class="container">
   
-  <h1>出勤中社員一覧</h1>
-  <% if Date.current && @attendances.present? %>
-    <% @users.each do |user| %>
-    
-      <ul class="users">
-        
-          <table class="table table-bordered working-table table-striped">
-            <thead>
+  <h1>出勤中社員一覧</h1> 
+        <% @users.each do |user| %>
+          <% user.attendances.each do |a| %>
+            <% if a.started_at.present? %>
+              <ul class="users">
               
-              <tr>
-                <th>社員番号</th>
-                <th>名前</th>
-                
-              </tr>
+                  <table class="table table-bordered working-table table-striped">
+                    
+                    <thead>
+                      
+                      <tr>
+                        <th>社員番号</th>
+                        <th>名前</th>
+                        
+                      </tr>
+                      
+                    </thead>
+                    
+                    
+                    <tbody>
+                      
+                      <tr>
+                        <td><%= user.employee_number %></td>
+                        <td><%= user.name %></td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
               
-            </thead>
-            
-            <tbody>
-              
-              <tr>
-                
-                <td><%= user.employee_number %></td>
-                <td><%= user.name %></td>
-                
-              </tr>
-              
-            </tbody>
-          </table>
-        
-      </ul>
-    
-    <% end %>
-    
-  <% else %>
-    <table></table>
-  <% end %>
-
-
+              </ul>
+            <% end %>
+          <% end %>
+        <% end %>
 </div>
+

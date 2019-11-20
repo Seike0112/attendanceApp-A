@@ -330,3 +330,12 @@ BUNDLED WITH
         
         <!--モーダルウインドウ表示-->
 <div id="edit-basic-info" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+
+
+    2019 11/20
+    <!--  @users.each do |user|  
+<if Date.today && @start_at.present? && !@finish_at.present? -->
+
+
+    @start_at = Attendance.where.not(started_at: nil)
+    @finish_at = Attendance.where.not(finished_at: nil)

@@ -64,8 +64,7 @@ class UsersController < ApplicationController
   end  
   
   def working_users
-    @users = User.all
-    @attendances = Attendance.all
+    @users = User.all.includes(:attendances)
   end  
   
   def edit_basic_info
