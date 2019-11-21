@@ -12,7 +12,8 @@ Rails.application.routes.draw do
   # 出勤中社員一覧
   get '/working_users', to: 'users#working_users'
   
-
+  # 拠点resources
+  resources :bases
   
   resources :users do 
     collection do
@@ -28,6 +29,7 @@ Rails.application.routes.draw do
       patch 'user_index_edit'
     end
     resources :attendances, only: :update
+    
   end
 
 end

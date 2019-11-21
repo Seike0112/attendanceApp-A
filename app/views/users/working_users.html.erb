@@ -3,7 +3,7 @@
   <h1>出勤中社員一覧</h1> 
         <% @users.each do |user| %>
           <% user.attendances.each do |a| %>
-            <% if a.started_at.present? %>
+            <% if a.started_at.present? && Date.today && !a.finished_at.present?  %>
               <ul class="users">
               
                   <table class="table table-bordered working-table table-striped">
