@@ -5,3 +5,6 @@ class Base < ApplicationRecord
     
     validates :base_id, presence: true, length: { maximum: 8 }
 end
+
+
+        
