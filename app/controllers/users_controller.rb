@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   before_action :admin_or_correct_user, only: [:show, :edit, :update]
   
   def index
-    @users = set_search.paginate(page: params[:page])
+    @users = set_search.paginate(page: params[:page]).includes(:attendances)
     @user = User.new
   end
   
