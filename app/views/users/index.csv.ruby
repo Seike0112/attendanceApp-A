@@ -11,6 +11,7 @@ CSV.generate do |csv|
           
         
          @finish = ""
+         
          @finish = l(a.finished_at, format: :time) if a.finished_at.present?      
       
       column_values = [
