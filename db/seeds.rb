@@ -4,6 +4,8 @@ User.create!(name: "管理者",
              email: "sample@email.com",
              password: "password",
              password_confirmation: "password",
+             department: "未登録",
+             u_id: "i-1",
              employee_number: "44490",
              designated_work_start_time: Time.current.change(hour: 8, min: 0, sec: 0),
              designated_work_end_time: Time.current.change(hour: 18, min: 0, sec: 0),             
@@ -13,6 +15,8 @@ User.create!(name: "上長１",
              email: "superior-1@email.com",
              password: "password",
              password_confirmation: "password",
+             department: "未登録",
+             u_id: "i-2",
              designated_work_start_time: Time.current.change(hour: 8, min: 0, sec: 0),
              designated_work_end_time: Time.current.change(hour: 18, min: 0, sec: 0),
              employee_number: "1111",
@@ -22,13 +26,15 @@ User.create!(name: "上長２",
              email: "superior-2@email.com",
              password: "password",
              password_confirmation: "password",
+             department: "未登録",
+             u_id: "i-3",
              designated_work_start_time: Time.current.change(hour: 8, min: 0, sec: 0),
              designated_work_end_time: Time.current.change(hour: 18, min: 0, sec: 0),
              employee_number: "2222",
              superior: true)
              
 
-50.times do |n|
+2.times do |n|
   name = Faker::Name.name
   email = "sample-#{n+1}@email.com"
   password = "password"
@@ -36,6 +42,8 @@ User.create!(name: "上長２",
   User.create!(name: name,
                email: email,
                password: password,
+               department: "未登録",
+               u_id: "i-1-#{n+100}",
                employee_number: employee_number,
                designated_work_start_time: Time.current.change(hour: 9, min: 0, sec: 0),
                designated_work_end_time: Time.current.change(hour: 18, min: 0, sec: 0),
