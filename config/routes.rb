@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   resources :users do 
     collection do
       get '/search', to: 'users#search' 
-      
+      post :import
     end
     member do
       get 'edit_basic_info'

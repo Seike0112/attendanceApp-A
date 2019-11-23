@@ -1,7 +1,7 @@
 <div class="container">
   <h1>拠点一覧</h1>
   <div>
-    <% @bases.each do |base| %>
+    
       <table class="table table-bordered table-condensed base-table">
         <tbody class="center">
           <tr>
@@ -11,18 +11,20 @@
             <td>拠点名</td>
             <td>勤怠種類</td>
           </tr>
-          <tr>
-            <td><%= link_to "修正", edit_basis_path(base), class: "btn btn-primary btn-edit" %></td>
-            <td><%= link_to "削除", base, method: :delete,
-                data: { confirm: "削除してよろしいですか？" },
-                class: "btn btn-primary btn-destroy-base" %></td>
-            <td class="base-point"><%= base.base_id %></td>
-            <td class="base-point"><%= base.base_name %></td>
-            <td class="base-point"><%= base.attendance_typ %></td>
-          </tr>
+          <% @bases.each do |base| %>
+            <tr>
+              <td><%= link_to "修正", edit_basis_path(base), class: "btn btn-primary btn-edit" %></td>
+              <td><%= link_to "削除", base, method: :delete,
+                  data: { confirm: "削除してよろしいですか？" },
+                  class: "btn btn-primary btn-destroy-base" %></td>
+              <td class="base-point"><%= base.base_id %></td>
+              <td class="base-point"><%= base.base_name %></td>
+              <td class="base-point"><%= base.attendance_typ %></td>
+            </tr>
+          <% end %>
         </tbody>
       </table>
-    <% end %>
+    
     <div class="new-point-button-area">
       <a class="btn btn-lg btn-primary btn-add" href="/bases/new">拠点情報追加</a>
     </div>

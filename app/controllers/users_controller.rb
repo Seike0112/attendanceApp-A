@@ -63,6 +63,13 @@ class UsersController < ApplicationController
     @users = set_search.paginate(page: params[:page])
   end  
   
+  def import
+    # fileはtmpに自動で一時保存される
+    User.import(params[:file])
+    flash[:success] = "CSVファイルを読み込みました。"
+    redirect_to users_url 
+  end
+  
   def working_users
     @users = User.all.includes(:attendances)
   end  
@@ -92,7 +99,7 @@ class UsersController < ApplicationController
   private
   
     def user_params
-      params.require(:user).permit(:name, :email, :department, :password, :password_confirmation, :employee_number, :u_id, :designated_work_start_time, :designated_work_end_time, :superior)
+      params.require(:user).permit(:name, :email, :department, :password, :password_confirmation, :employee_number, :u_id, :basic_time, :designated_work_start_time, :designated_work_end_time, :superior)
     end
     
     def set_search
