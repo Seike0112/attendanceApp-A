@@ -64,10 +64,14 @@ class UsersController < ApplicationController
   end  
   
   def import
-    # fileはtmpに自動で一時保存される
-    User.import(params[:file])
-    flash[:success] = "CSVファイルを読み込みました。"
-    redirect_to users_url 
+      # fileはtmpに自動で一時保存される
+    if User.import(params[:file])
+      flash[:success] = "CSVファイルを読み込みました。"
+      redirect_to users_url 
+    else
+      flash[:danger] = "CSVファイルを読み込めませんでした。"
+      redirect_to users_url
+    end
   end
   
   def working_users

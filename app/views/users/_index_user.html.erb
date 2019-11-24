@@ -7,8 +7,10 @@
   
         <!-- 管理者の場合、削除編集ボタンを表示させる -->
           <br> | 
-          <a data-confirm="削除してよろしいですか？" class="btn btn-primary" rel="nofollow" data-method="delete" href="/users/8">削除</a>
-  
+          <a><%= link_to "削除", user, method: :delete,
+                data: { confirm: "削除してよろしいですか？" },
+                class: "btn btn-primary" %>
+          </a>
           <div class="panel-group">
             <div class="panel panel-default">
               <div class="panel-heading">

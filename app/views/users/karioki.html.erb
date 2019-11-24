@@ -339,3 +339,11 @@ BUNDLED WITH
 
     @start_at = Attendance.where.not(started_at: nil)
     @finish_at = Attendance.where.not(finished_at: nil)
+    
+    
+    201911/24
+    
+  <%= form_tag import_users_path, multipart: true do %>
+    <%= file_field_tag :file %>
+    <%= link_to "インポート", class: "btn btn-block btn-primary" %>
+  <% end %>
