@@ -347,3 +347,24 @@ BUNDLED WITH
     <%= file_field_tag :file %>
     <%= link_to "インポート", class: "btn btn-block btn-primary" %>
   <% end %>
+  
+  
+        <%= form_with(model: @user, url: attendances_one_month_petition_user_path(@user), local: true) do |f| %>
+          <%= f.select :name, ["上長１","上長２"], :prompt => "選択してください" %>
+          <br>
+          <%= f.submit "申請",  class: "btn btn-default  btn-primary" %>
+        <% end %>
+        
+    201911/26
+    
+        <%= form_with(model: @user, url: user_path(@user), method: :get, local: true) do |f| %>
+        
+        
+    201911/27
+    
+        <%= form_with(model: @user, url: user_path, local: true) do |f| %>
+          <%= f.select :name, User.names.keys, :selected=>User.names[@user.name] %>
+          <br>
+          <br>          
+          <%= f.submit "申請", class: "btn btn-primary" %>
+        <% end %>

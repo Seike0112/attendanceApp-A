@@ -1,6 +1,6 @@
 class BasesController < ApplicationController
   def index
-    @bases = Base.all.uniq
+    @bases = Base.all
   end
   
   def new
@@ -8,11 +8,13 @@ class BasesController < ApplicationController
   end
   
   def create
+    @bases = Base.all
     @base = Base.new(base_params)
     if @base.save
       flash[:success] = "拠点登録の新規作成に成功しました。"
       redirect_to bases_url
     else
+      flash.now[:danger] = "拠点登録の新規作成に失敗しました。"
       render :index
     end
   end

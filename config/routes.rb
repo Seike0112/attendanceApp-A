@@ -29,9 +29,12 @@ Rails.application.routes.draw do
       patch 'attendances/update_one_month'
       get 'attendances/attendance_index'
       patch 'user_index_edit'
+      get 'attendance_log'
+      #未実装 勤怠ログ
+      patch 'log-update'
+      #実装中 １ヶ月分の勤怠申請
     end
-    resources :attendances, only: :update
-    
+    resources :attendances, only: [:update] 
   end
 
 end
