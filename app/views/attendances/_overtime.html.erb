@@ -21,13 +21,29 @@
               <td>業務処理内容</td>
               <td>指示確認㊞</td>
             </tr>
-            <tr class="user-table">
-              <td><%= @attendance.worked_on %></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+            <tr>
+              <td rowspan="3"><%= l(@attendance.worked_on, format: :short) %></td>
+              <td rowspan="3">
+                <% if @attendance.worked_on.wday == 6 %>
+                  <font color="blue">土</font>
+                <% elsif @attendance.worked_on.wday == 0 %>
+                  <font color="red">日</font>
+                <% elsif @attendance.worked_on.wday == 1 %>
+                  <font color="black">月</font>
+                <% elsif @attendance.worked_on.wday == 2 %>
+                  <font color="black">火</font>
+                <% elsif @attendance.worked_on.wday == 3 %>
+                  <font color="black">水</font>
+                <% elsif @attendance.worked_on.wday == 4 %>
+                  <font color="black">木</font>
+                <% elsif @attendance.worked_on.wday == 5 %>
+                  <font color="black">金</font>
+                <% end %> 
+              </td>
+              <td rowspan="3"></td>
+              <td rowspan="3"></td>
+              <td rowspan="3"></td>
+              <td rowspan="3"></td>
             </tr>
           </table>
         </div>  
