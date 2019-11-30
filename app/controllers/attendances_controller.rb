@@ -52,6 +52,8 @@ class AttendancesController < ApplicationController
   end
   
   def overtime
+    @user = User.find(params[:user_id])
+    @attendance = Attendance.find(params[:attendance_id])
     respond_to do |format|
       format.html
       format.js
