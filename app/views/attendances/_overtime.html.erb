@@ -1,53 +1,60 @@
 <% provide(:class_text, 'basic-info') %>
 <% provide(:button_text, '更新') %>
 
-<div class="modal-dialog modal-lg modal-dialog-center">
-  <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <h1 class="modal-title">【残業申請】</h1>
-    </div>
-    <div class="modal-body">
-      <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-          <table class="table table-bordered table-condensed" id="table-attendances">
-            <tr class="user-table">
-              <td>日付</td>
-              <td>曜日</td>
-              <td>終了予定時間</td>
-              <td>翌日</td>
-              <td>業務処理内容</td>
-              <td>指示確認㊞</td>
-            </tr>
-            <tr>
-              <td rowspan="3"><%= l(@attendance.worked_on, format: :short) %></td>
-              <td rowspan="3">
-                <% if @attendance.worked_on.wday == 6 %>
-                  <font color="blue">土</font>
-                <% elsif @attendance.worked_on.wday == 0 %>
-                  <font color="red">日</font>
-                <% elsif @attendance.worked_on.wday == 1 %>
-                  <font color="black">月</font>
-                <% elsif @attendance.worked_on.wday == 2 %>
-                  <font color="black">火</font>
-                <% elsif @attendance.worked_on.wday == 3 %>
-                  <font color="black">水</font>
-                <% elsif @attendance.worked_on.wday == 4 %>
-                  <font color="black">木</font>
-                <% elsif @attendance.worked_on.wday == 5 %>
-                  <font color="black">金</font>
-                <% end %> 
-              </td>
-              <td rowspan="3"></td>
-              <td rowspan="3"></td>
-              <td rowspan="3"></td>
-              <td rowspan="3"></td>
-            </tr>
-          </table>
-        </div>  
+<%= form_with(model: @attendance, url: user_attendance_overtime_application_path, local: true, method: :post) do |f| %>
+  <div class="modal-dialog modal-lg modal-dialog-center">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h1 class="modal-title">【残業申請】</h1>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <table class="table-bordered table-striped table-condensed">
+              <thead>
+                <tr>
+                  <th>日付</td>
+                  <th>曜日</td>
+                  <th>終了予定時間</td>
+                  <th>翌日</td>
+                  <th>業務処理内容</td>
+                  <th>指示確認㊞</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><%= l(@attendance.worked_on, format: :short) %></td>
+                  <td>
+                    <% if @attendance.worked_on.wday == 6 %>
+                      <font color="blue">土</font>
+                    <% elsif @attendance.worked_on.wday == 0 %>
+                      <font color="red">日</font>
+                    <% elsif @attendance.worked_on.wday == 1 %>
+                      <font color="black">月</font>
+                    <% elsif @attendance.worked_on.wday == 2 %>
+                      <font color="black">火</font>
+                    <% elsif @attendance.worked_on.wday == 3 %>
+                      <font color="black">水</font>
+                    <% elsif @attendance.worked_on.wday == 4 %>
+                      <font color="black">木</font>
+                    <% elsif @attendance.worked_on.wday == 5 %>
+                      <font color="black">金</font>
+                    <% end %> 
+                  </td>
+  
+                  <td><%= f.datetime_select :overtime, discard_year:true, discard_month:true, readonly: true, prompt: "--", class: "form-control" %></td>
+                  <td></td>
+                  <td><%= f.text_field :overtime_note, class: "form-control" %></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>  
+        </div>
       </div>
     </div>
   </div>
-</div>
+<% end %>
