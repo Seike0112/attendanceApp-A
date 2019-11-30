@@ -2,7 +2,7 @@ include AttendancesHelper
 class AttendancesController < ApplicationController
   
   
-  before_action :set_user, only: [:edit_one_month, :update_one_month, :index]
+  before_action :set_user, only: [:edit_one_month, :update_one_month]
   before_action :logged_in_user, only: [:update, :edit_one_month]
   before_action :admin_or_correct_user, only: [:update, :edit_one_month, :update_one_month]
   before_action :set_one_month, only: :edit_one_month
@@ -51,7 +51,12 @@ class AttendancesController < ApplicationController
       redirect_to attendances_edit_one_month_user_url(date: params[:date])
   end
   
-
+  def overtime
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
   
 
   private

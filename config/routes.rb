@@ -34,7 +34,10 @@ Rails.application.routes.draw do
       patch 'log-update'
       #実装中 １ヶ月分の勤怠申請
     end
-    resources :attendances, only: [:update] 
+    resources :attendances, only: [:update] do
+      get 'overtime'
+      post 'overtime_application'
+    end
   end
 
 end
