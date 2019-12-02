@@ -62,6 +62,15 @@ class AttendancesController < ApplicationController
   end
   
   def overtime_application
+    @user = User.find(params[:user_id])
+    @attendance = Attendance.find(params[:attendance_id])
+    if @attendance.update_attributes(overtime_params)
+      flash[:success] = "残業情報を更新しました。"
+      redirect_to @user
+    else
+      flash[:danger] = "残業情報を更新できませんでした。"
+      render :show
+    end
   end
   
 
@@ -70,6 +79,11 @@ class AttendancesController < ApplicationController
     # 1ヶ月分の勤怠情報を扱います。
     def attendances_params
       params.require(:user).permit(attendances: [:started_at, :finished_at, :note])[:attendances]
+    end
+    
+    # 1ヶ月分の残業情報を扱います。
+    def overtime_params
+      params.require(:attendance).permit(:overtime, :overtime_note, :overtime_application)
     end
 
     # beforeフィルター

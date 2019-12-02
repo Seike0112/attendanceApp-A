@@ -115,8 +115,8 @@
             <% end %>            
           </td>
           <td><%= day.note %></td>
-          <td></td>
-          <td></td>
+          <td><%= l(day.overtime, format: :hour) if day.overtime.present? %></td>
+          <td><%= l(day.overtime.floor_to(15.minutes), format: :minit) if day.overtime.present? %></td>
           <td></td>
           <td></td>
           <td></td>
