@@ -61,6 +61,9 @@ class AttendancesController < ApplicationController
     end
   end
   
+  def overtime_application
+  end
+  
 
   private
 

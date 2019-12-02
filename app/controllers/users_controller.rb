@@ -100,10 +100,7 @@ class UsersController < ApplicationController
     end
   end
   
-  #未実装　勤怠ログ
-  def attendance_log
-    
-  end
+  
   
 
   
