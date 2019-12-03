@@ -32,7 +32,7 @@
 
 <div class="btn-users-show btn-attendance-a">
   <%= link_to "勤怠の編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-default  btn-primary" %>
-  <%= link_to "CSVの出力", users_path(format: :csv), class: "btn btn-primary" %> 
+  <%= link_to "CSVの出力", user_path(format: :csv), class: "btn btn-primary" %> 
 </div>
 <div class="btn-users-show">
   <%= link_to "勤怠修正ログ（承認済み）",'#', class: "btn btn-default  btn-primary" %>
@@ -117,7 +117,7 @@
           <td><%= day.note %></td>
           <td><%= l(day.overtime, format: :hour) if day.overtime.present? %></td>
           <td><%= l(day.overtime.floor_to(15.minutes), format: :minit) if day.overtime.present? %></td>
-          <td></td>
+          <td><%= day.overtime_note %></td>
           <td></td>
           <td></td>
         </tr>

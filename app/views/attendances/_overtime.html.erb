@@ -46,9 +46,9 @@
                   </td>
   
                   <td><%= f.datetime_select :overtime, discard_year:true, discard_month:true, readonly: true, prompt: "--", class: "form-control" %></td>
-                  <td></td>
+                  <td><%= f.radio_button :overtime_application, checked: false %></td>
                   <td><%= f.text_field :overtime_note, class: "form-control" %></td>
-                  <td></td>
+                  <td><%= select_tag 'name', options_for_select([["管理者","1"], ["上長１","2"], ["上長２","3"]],:selected=>"3") %></td>
                 </tr>
               </tbody>
             </table>
