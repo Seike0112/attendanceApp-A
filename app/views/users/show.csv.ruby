@@ -11,10 +11,15 @@ CSV.generate do |csv|
         
          @finish = ""
          
-         @finish = l(a.finished_at, format: :time) if a.finished_at.present?      
+         @finish = l(a.finished_at, format: :time) if a.finished_at.present?   
+         
+         @worked_on = ""
+         
+         @worked_on = a.worked_on
+         
       
       column_values = [
-        a.worked_on,
+        @worked_on,
         @start,
         @finish
       ]
