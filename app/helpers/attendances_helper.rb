@@ -31,6 +31,13 @@ module AttendancesHelper
     return attendances
   end
   
+  def check_judge
+      if @attendance.check_botan == true 
+        @attendance.worked_on = Date.tomorrow
+      elsif @attendance.check_botan == false 
+        @attendance.worked_on = Date.current
+      end
+  end 
   
   
 end

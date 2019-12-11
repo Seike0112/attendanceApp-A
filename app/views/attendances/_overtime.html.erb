@@ -44,7 +44,7 @@
                     </td>
     
                     <td><%= f.datetime_select :overtime, discard_year:true, discard_month:true, readonly: true, prompt: "--", class: "form-control" %></td>
-                    <td><%= f.radio_button :overtime_application, checked: false %></td>
+                    <td><%= f.check_box :check_botan, :as => :boolean, checked: false %></td>
                     <td><%= f.text_field :overtime_note, class: "form-control" %></td>
                     <td><%= select_tag 'overtime_application', options_for_select([["管理者","1"], ["上長１","2"], ["上長２","3"]],:selected=>"0") %></td>
                   </tr>
@@ -52,7 +52,7 @@
               </table> 
         </div>
         <div class="modal-footer">
-          <%= f.submit "変更を送信する", class: "btn btn-primary form-control" %>
+          <%= f.submit "変更を送信する", class: "btn  btn-primary form-control" %>
         </div>
       </div>
     </div>
