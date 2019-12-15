@@ -40,4 +40,15 @@ module AttendancesHelper
   end 
   
   
+  
+  
+  def overtimes_true(overtime, designated_work_end_time)
+    format("%.2f", (((overtime.to_i - designated_work_end_time.to_i) + 24) / 60) / 60)
+    
+  end
+  
+  def overtimes_false(overtime, designated_work_end_time)
+    format("%.2f", (((overtime - designated_work_end_time) / 60) / 60))
+  end
+  
 end

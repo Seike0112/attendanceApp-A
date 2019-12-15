@@ -117,7 +117,12 @@
           <td><%= day.note %></td>
           <td><%= l(day.overtime, format: :hour) if day.overtime.present? %></td>
           <td><%= l(day.overtime.floor_to(15.minutes), format: :minit) if day.overtime.present? %></td>
-          <td></td>
+          <td>
+            <% if day.check_botan == true %>
+              <%= overtimes_true(day.overtime, @user.designated_work_end_time) %>
+            
+            <% end %>
+          </td>
           <td><%= day.overtime_note %></td>
           <td></td>
         </tr>
