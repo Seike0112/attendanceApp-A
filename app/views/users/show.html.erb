@@ -120,7 +120,8 @@
           <td>
             <% if day.check_botan == true %>
               <%= overtimes_true(day.overtime, @user.designated_work_end_time) %>
-            
+            <% elsif day.check_botan == false %>
+              <%= overtimes_false(day.overtime, @user.designated_work_end_time) %>
             <% end %>
           </td>
           <td><%= day.overtime_note %></td>

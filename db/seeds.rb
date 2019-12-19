@@ -6,9 +6,7 @@ User.create!(name: "管理者",
              password_confirmation: "password",
              department: "未登録",
              u_id: "i-1",
-             employee_number: "44490",
-             designated_work_start_time: Time.current.change(hour: 8, min: 0, sec: 0),
-             designated_work_end_time: Time.current.change(hour: 18, min: 0, sec: 0),             
+             employee_number: "44490",            
              admin: true)
              
 User.create!(name: "上長１",
@@ -17,8 +15,6 @@ User.create!(name: "上長１",
              password_confirmation: "password",
              department: "未登録",
              u_id: "i-2",
-             designated_work_start_time: Time.current.change(hour: 8, min: 0, sec: 0),
-             designated_work_end_time: Time.current.change(hour: 18, min: 0, sec: 0),
              employee_number: "1111",
              superior: true)
              
@@ -28,8 +24,6 @@ User.create!(name: "上長２",
              password_confirmation: "password",
              department: "未登録",
              u_id: "i-3",
-             designated_work_start_time: Time.current.change(hour: 8, min: 0, sec: 0),
-             designated_work_end_time: Time.current.change(hour: 18, min: 0, sec: 0),
              employee_number: "2222",
              superior: true)
              
@@ -45,7 +39,5 @@ User.create!(name: "上長２",
                department: "未登録",
                u_id: "i-1-#{n+100}",
                employee_number: employee_number,
-               designated_work_start_time: Time.current.change(hour: 9, min: 0, sec: 0),
-               designated_work_end_time: Time.current.change(hour: 18, min: 0, sec: 0),
                password_confirmation: password)
 end

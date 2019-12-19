@@ -1,7 +1,7 @@
 <% provide(:class_text, 'basic-info') %>
 <% provide(:button_text, '更新') %>
 <div class="container">
-    <%= form_with(model: @attendance, url: user_attendance_overtime_application_path(@user, @attendance), local: true, method: :post) do |f| %>
+    <%= form_with(model: @attendance, url: user_attendance_overtime_application_path(@user, @attendance), local: true, method: :patch) do |f| %>
       <div class="modal-dialog modal-lg modal-dialog-center">
         <div class="modal-content">
           <div class="modal-header">

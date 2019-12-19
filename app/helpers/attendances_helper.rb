@@ -33,9 +33,14 @@ module AttendancesHelper
   
   def check_judge
       if @attendance.check_botan == true 
-        @attendance.worked_on = Date.tomorrow
+        @user.designated_work_end_time = @attendance.worked_on + 1
+        @attendance.overtime = @attendance.worked_on + 1
+        @attendance.worked_on = @attendance.worked_on + 1
+    
       elsif @attendance.check_botan == false 
-        @attendance.worked_on = Date.current
+        @user.designated_work_end_time = @attendance.worked_on
+        @attendance.overtime = @attendance.worked_on
+        @attendance.worked_on = @attendance.worked_on
       end
   end 
   
@@ -43,7 +48,7 @@ module AttendancesHelper
   
   
   def overtimes_true(overtime, designated_work_end_time)
-    format("%.2f", (((overtime.to_i - designated_work_end_time.to_i) + 24) / 60) / 60)
+    format("%.2f", (((overtime - designated_work_end_time).to_i + 24) / 60) / 60)
     
   end
   
