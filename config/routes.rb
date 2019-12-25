@@ -37,6 +37,8 @@ Rails.application.routes.draw do
     resources :attendances, only: [:update] do
       get 'overtime'
       patch 'overtime_application'
+      get 'overtime_admin'
+      patch 'overtime_admin_up'
     end
   end
 

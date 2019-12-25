@@ -6,7 +6,7 @@ User.create!(name: "管理者",
              password_confirmation: "password",
              department: "未登録",
              u_id: "i-1",
-             employee_number: "44490",            
+             employee_number: "44490",  
              admin: true)
              
 User.create!(name: "上長１",

@@ -121,3 +121,22 @@
   position : relative;
   right: 300px;
 }
+
+/* 勤怠A　残業申請のリンク */
+.overtime-application {
+  color: red;
+  text-decoration: none;
+}
+
+.overtime-application:hover 
+  { color:red; text-decoration:none }
+
+.overtime-div {
+  color: red;
+  border: 3px solid #FF0000;
+  list-style: none;
+  display: inline-block;
+  font-weight: bold;
+}
+
+
