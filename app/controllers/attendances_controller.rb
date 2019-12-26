@@ -75,6 +75,17 @@ class AttendancesController < ApplicationController
     end
   end
   
+  def overtime_admin
+    @user = User.find(params[:user_id])
+    @users = User.all
+    @attendances = Attendance.all
+    
+  end
+  
+  def overtime_admin_up
+    
+  end
+  
 
   private
 

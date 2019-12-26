@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   # 拠点resources
   resources :bases
   
+
+  
   resources :users do 
     collection do
       get '/search', to: 'users#search' 
@@ -37,8 +39,9 @@ Rails.application.routes.draw do
     resources :attendances, only: [:update] do
       get 'overtime'
       patch 'overtime_application'
-      get 'overtime_admin'
-      patch 'overtime_admin_up'
+      collection do
+        get 'overtime_admin'
+      end
     end
   end
 

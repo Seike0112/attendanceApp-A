@@ -44,13 +44,15 @@ module AttendancesHelper
   
   def overtimes_true(overtime, designated_work_end_time)
     format("%.2f", (((overtime - designated_work_end_time).to_i / 60) / 60) + 6)
-    
   end
   
   def overtimes_false(overtime, designated_work_end_time)
     format("%.2f", (((overtime - designated_work_end_time).to_i / 60) / 60) - 18)
-    
-    
+  end
+
+  # 勤怠基本情報を指定のフォーマットで返します。 
+  def format_basic_info(time)
+    format("%.2f", ((time.hour * 60) + time.min) / 60.0)
   end
   
 end
