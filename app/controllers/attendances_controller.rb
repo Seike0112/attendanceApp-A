@@ -64,9 +64,8 @@ class AttendancesController < ApplicationController
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:attendance_id])
     check_judge
-    @attendance[:overtime] = @attendance.worked_on
-    
     if @attendance.update_attributes(overtime_params)
+      @user.designated_work_end_time = @attendance.worked_on
       flash[:success] = "残業情報を更新しました。"
       redirect_to @user
     else
@@ -98,7 +97,6 @@ class AttendancesController < ApplicationController
     def overtime_params
       params.require(:attendance).permit(:worked_on, :overtime, :overtime_note, :check_botan, :overtime_application)
     end
-    
    
 
     # beforeフィルター

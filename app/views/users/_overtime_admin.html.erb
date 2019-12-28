@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="modal-dialog modal-lg modal-dialog-center">
+    <div class="modal-content">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+            
+      <div class="modal-body">
+        <% @users.each do |user| %>
+          <% user.attendances.each do |attendance| %>
+            <% if attendance.overtime.present? %>
+              <%= user.name %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>          
+    </div>
+  </div>
+</div>

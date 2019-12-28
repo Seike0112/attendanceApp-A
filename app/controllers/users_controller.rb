@@ -79,6 +79,10 @@ class UsersController < ApplicationController
     @users = User.all.includes(:attendances)
   end  
   
+  def overtime_admin
+    @users = User.all.includes(:attendances)
+  end
+  
   def edit_basic_info
   end
   

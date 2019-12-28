@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   # 出勤中社員一覧
   get '/working_users', to: 'users#working_users'
   
+  # 上長申請
+  get 'users/attendances/overtime_admin', to: 'users#overtime_admin'
+  
   # 拠点resources
   resources :bases
   
