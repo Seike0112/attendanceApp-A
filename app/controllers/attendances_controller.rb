@@ -75,14 +75,22 @@ class AttendancesController < ApplicationController
   end
   
   def overtime_admin
-    @user = User.find(params[:user_id])
     @users = User.all
+    @user_name = User.where.not(name: nil).count
     @attendances = Attendance.all
-    
+    @overtime_sum = Attendance.where.not(overtime: nil)
+    @overtime_count = Attendance.where.not(overtime: nil).count
   end
   
-  def overtime_admin_up
-    
+  def admin_update
+    @users = User.all
+    @attendances = Attendance.all
+    if @attendances.update_attributes(admin_params)
+      flash[:success] = "申請を更新しました。"
+      redirect_to user_url current_user
+    else
+      render :show
+    end
   end
   
 
@@ -97,7 +105,11 @@ class AttendancesController < ApplicationController
     def overtime_params
       params.require(:attendance).permit(:worked_on, :overtime, :overtime_note, :check_botan, :overtime_application)
     end
-   
+    
+    #　上長の残業申請用
+    def admin_params
+      params.require(:attendance).permit(:overtime)
+    end
 
     # beforeフィルター
 

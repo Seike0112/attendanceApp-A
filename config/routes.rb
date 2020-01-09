@@ -14,9 +14,6 @@ Rails.application.routes.draw do
   # 出勤中社員一覧
   get '/working_users', to: 'users#working_users'
   
-  # 上長申請
-  get 'users/attendances/overtime_admin', to: 'users#overtime_admin'
-  
   # 拠点resources
   resources :bases
   
@@ -37,13 +34,14 @@ Rails.application.routes.draw do
       get 'attendance_log'
       #未実装 勤怠ログ
       patch 'log-update'
-      #実装中 １ヶ月分の勤怠申請
+      #残業申請　上長
+      get 'overtime_admin'
+      patch 'overtime_admin_update'
     end
     resources :attendances, only: [:update] do
       get 'overtime'
       patch 'overtime_application'
       collection do
-        get 'overtime_admin'
       end
     end
   end

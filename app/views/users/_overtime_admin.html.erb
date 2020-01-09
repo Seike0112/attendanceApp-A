@@ -4,15 +4,71 @@
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
-            
       <div class="modal-body">
+      <%= form_with(model: @user, url: overtime_admin_update_user_path, local: true, method: :patch) do |f| %>
         <% @users.each do |user| %>
-          <% user.attendances.each do |attendance| %>
-            <% if attendance.overtime.present? %>
-              <%= user.name %>
+          <h1>【<%= user.name %>からの残業申請】</h1>
+          <table class="table table-bordered table-striped table-condensed">
+            <thead>
+              <tr>
+                <th>日付</th>
+                <th>曜日</th>
+                <th>終了予定時間</th>
+                <th>指定勤務終了時間</th>
+                <th>時間外時間</th>
+                <th>業務処理内容</th>
+                <th>指示確認㊞</th>
+                <th>変更</th>
+                <th>勤怠を確認する</th>
+              </tr>
+            </thead>
+              <% @attendances.each do |attendance| %>
+                <% if attendance.user_id == user.id %>
+                  <tbody class="center">
+                    <tr>
+                      <td><%= l(attendance.worked_on, format: :short) %></td>
+                      <td>
+                        <% if attendance.worked_on.wday == 6 %>
+                            <font color="blue">土</font>
+                        <% elsif attendance.worked_on.wday == 0 %>
+                            <font color="red">日</font>
+                        <% elsif attendance.worked_on.wday == 1 %>
+                            <font color="black">月</font>
+                        <% elsif attendance.worked_on.wday == 2 %>
+                            <font color="black">火</font>
+                        <% elsif attendance.worked_on.wday == 3 %>
+                            <font color="black">水</font>
+                        <% elsif attendance.worked_on.wday == 4 %>
+                            <font color="black">木</font>
+                        <% elsif attendance.worked_on.wday == 5 %>
+                            <font color="black">金</font>
+                        <% end %>                             
+                      </td>
+                      <td><%= l(attendance.overtime.floor_to(15.minutes), format: :time) %></td>
+                      <td>18.00</td>
+                      <td>
+                        <% if attendance.check_botan == true && attendance.overtime.present? && user.designated_work_end_time = attendance.worked_on %>
+                          <%= overtimes_true(attendance.overtime, user.designated_work_end_time) %>
+                          
+                        <% elsif attendance.check_botan == false && attendance.overtime.present? && user.designated_work_end_time = attendance.worked_on %>
+                          <%= overtimes_false(attendance.overtime, user.designated_work_end_time) %>
+                          
+                        <% end %>        
+                      </td>
+                      <td><%= attendance.overtime_note %></td>
+                      <td><%= f.select :overtime_n, [['なし', 0], ['承認', 1], ['否認', 2], ['申請中', 3]] %></td>
+                      <td><%= f.check_box :check_botan, :as => :boolean, checked: false %></td>
+                      <td><%= link_to "確認する", '#', class: "btn btn-primary btn-sm" %></td>
+                    </tr>
+                  </tbody>
+              <% end %>
             <% end %>
-          <% end %>
-        <% end %>
+          </table> 
+        <% end %> 
+        <div class="center">
+          <%= link_to "変更を送信する", "#", class: "btn btn-primary btn-lg" %>
+        </div><br>
+      <% end %>
       </div>          
     </div>
   </div>

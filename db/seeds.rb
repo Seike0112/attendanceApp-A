@@ -7,7 +7,8 @@ User.create!(name: "管理者",
              department: "未登録",
              u_id: "i-1",
              employee_number: "44490",
-             admin: true)
+             admin: true,
+            )
              
 User.create!(name: "上長１",
              email: "superior-1@email.com",
@@ -26,7 +27,6 @@ User.create!(name: "上長２",
              u_id: "i-3",
              employee_number: "2222",
              superior: true)
-             
 
 2.times do |n|
   name = Faker::Name.name

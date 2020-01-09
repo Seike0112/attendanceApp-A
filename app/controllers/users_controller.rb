@@ -13,7 +13,9 @@ class UsersController < ApplicationController
   
   def show
     @worked_sum = @attendances.where.not(started_at: nil).count
-    @overtime_sum = @attendances.where.not(overtime: nil).count
+    @overtime_sum = Attendance.where.not(overtime: nil).count
+    @app = Attendance.where.not(overtime: nil).
+      where.not(overtime_application: nil)
   end
   
   def new
@@ -79,10 +81,6 @@ class UsersController < ApplicationController
     @users = User.all.includes(:attendances)
   end  
   
-  def overtime_admin
-    @users = User.all.includes(:attendances)
-  end
-  
   def edit_basic_info
   end
   
@@ -104,6 +102,23 @@ class UsersController < ApplicationController
       flash[:danger] = "ユーザー情報を更新できませんでした。"
       redirect_to users_url
     end
+  end
+  
+  def overtime_admin
+    @user = User.find(params[:id])
+    @users = User.joins(:attendances).
+      where.not(attendances: { overtime: nil }).
+      where(attendances: { overtime_application: "1" }).
+      where.not(users: { name: nil }).distinct
+    @attendance = Attendance.find(params[:id])
+    @attendances = Attendance.where.not(overtime: nil).
+      where(overtime_application: "1")
+  end
+  
+  def overtime_admin_update
+    @user = User.find(params[:id])
+    @attendance = Attendance.find(params[:id])
+    
   end
   
   

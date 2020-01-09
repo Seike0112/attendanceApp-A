@@ -1,6 +1,8 @@
 <% provide(:title, @user.name) %>
 <h1><%= @current_user.name %></h1>
 
+
+
 <div>
   <table class="table table-bordered table-condensed" id="table-attendances">
     <tr class="user-table">
@@ -29,9 +31,10 @@
     <div>【所属長承認申請のお知らせ】</div><br>
     <div>【勤怠変更申請のお知らせ】</div><br>
     <% if @overtime_sum > 0 %>
-      <div><%= link_to "【残業申請のお知らせ】", users_attendances_overtime_admin_path, remote: true, class: 'overtime-application' %> <div class="overtime-div"><%= @overtime_sum %>件の通知があります</div></div>
-      
-    <% elsif @overtime_sum == 0 %>
+      <div><%= link_to "【残業申請のお知らせ】", overtime_admin_user_path(@user), remote: true, class: 'overtime-application' %> 
+        <div class="overtime-div"><%= @overtime_sum %>件の通知があります</div>
+      </div>
+    <% else %>
       <p>【残業申請のお知らせ】</p>
     <% end %>
   <% end %>
@@ -79,6 +82,9 @@
 
     <tbody>
       <% @attendances.each do |day| %>
+        <div>
+          <%= day.overtime_application %>
+        </div>
         <tr>
           <td>
             <a><%= link_to "残業申請", user_attendance_overtime_path(@user, day), {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#overtime', class: 'btn btn-default  btn-primary'} %></a>
