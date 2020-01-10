@@ -2,7 +2,6 @@
 <h1><%= @current_user.name %></h1>
 
 
-
 <div>
   <table class="table table-bordered table-condensed" id="table-attendances">
     <tr class="user-table">
@@ -20,7 +19,7 @@
       <td>氏名　<%= @user.name %></td>
       <td>コード</td>
       <td><%= @user.employee_number %></td>
-      <td>出勤日数　<%= @worked_sum %>日</td>
+      <td>出勤日数　<% @worked_sum %>日</td>
       <td>締め　<%= l(@last_day, format: :short) %></td>
     </tr>
   </table>
@@ -30,10 +29,10 @@
   <% if @user.admin || @user.superior %>
     <div>【所属長承認申請のお知らせ】</div><br>
     <div>【勤怠変更申請のお知らせ】</div><br>
-    <% if @overtime_sum > 0 %>
-      <div><%= link_to "【残業申請のお知らせ】", overtime_admin_user_path(@user), remote: true, class: 'overtime-application' %> 
-        <div class="overtime-div"><%= @overtime_sum %>件の通知があります</div>
-      </div>
+    <% if @app.count > 0 %>
+        <div><%= link_to "【残業申請のお知らせ】", overtime_admin_user_path(@user), remote: true, class: 'overtime-application' %> 
+          <div class="overtime-div"><%= @app.count %>件の通知があります</div>
+        </div>
     <% else %>
       <p>【残業申請のお知らせ】</p>
     <% end %>
@@ -82,9 +81,6 @@
 
     <tbody>
       <% @attendances.each do |day| %>
-        <div>
-          <%= day.overtime_application %>
-        </div>
         <tr>
           <td>
             <a><%= link_to "残業申請", user_attendance_overtime_path(@user, day), {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#overtime', class: 'btn btn-default  btn-primary'} %></a>

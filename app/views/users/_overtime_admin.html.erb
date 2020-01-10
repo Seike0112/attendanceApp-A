@@ -59,16 +59,19 @@
                       <td><%= f.select :overtime_n, [['なし', 0], ['承認', 1], ['否認', 2], ['申請中', 3]] %></td>
                       <td><%= f.check_box :check_botan, :as => :boolean, checked: false %></td>
                       <td><%= link_to "確認する", '#', class: "btn btn-primary btn-sm" %></td>
+                      <td>
+                        
+                      </td>
                     </tr>
                   </tbody>
+                <% end %>  
               <% end %>
-            <% end %>
-          </table> 
-        <% end %> 
-        <div class="center">
-          <%= link_to "変更を送信する", "#", class: "btn btn-primary btn-lg" %>
-        </div><br>
-      <% end %>
+            </table> 
+          <% end %>
+          <div class="center">
+            <%= link_to "変更を送信する", "#", class: "btn btn-primary btn-lg" %>
+          </div><br>
+        <% end %>
       </div>          
     </div>
   </div>

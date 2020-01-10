@@ -13,9 +13,15 @@ class UsersController < ApplicationController
   
   def show
     @worked_sum = @attendances.where.not(started_at: nil).count
-    @overtime_sum = Attendance.where.not(overtime: nil).count
-    @app = Attendance.where.not(overtime: nil).
-      where.not(overtime_application: nil)
+    @overtime_sum = Attendance.where.not(overtime_application: nil)
+    if @user.id == 1 
+      @app = Attendance.where(overtime_application: "1")
+    elsif @user.id == 2
+      @app = Attendance.where(overtime_application: "2")
+    elsif @user.id == 3
+      @app = Attendance.where(overtime_application: "3")
+    end
+    
   end
   
   def new
@@ -106,18 +112,50 @@ class UsersController < ApplicationController
   
   def overtime_admin
     @user = User.find(params[:id])
-    @users = User.joins(:attendances).
-      where.not(attendances: { overtime: nil }).
-      where(attendances: { overtime_application: "1" }).
-      where.not(users: { name: nil }).distinct
-    @attendance = Attendance.find(params[:id])
-    @attendances = Attendance.where.not(overtime: nil).
-      where(overtime_application: "1")
+    
+    if @user.id == 1
+      @users = User.joins(:attendances).
+        where(attendances: { overtime_application: "1" }).distinct
+    elsif @user.id == 2
+      @users = User.joins(:attendances).
+        where(attendances: { overtime_application: "2" }).distinct
+    elsif @user.id == 3
+      @users = User.joins(:attendances).
+        where(attendances: { overtime_application: "3" }).distinct
+    end
+    
+    if @user.id == 1
+      @attendances = Attendance.where(overtime_application: "1")
+    elsif @user.id == 2
+      @attendances = Attendance.where(overtime_application: "2")
+    elsif @user.id == 3
+      @attendances = Attendance.where(overtime_application: "3")
+    end
   end
   
   def overtime_admin_update
     @user = User.find(params[:id])
-    @attendance = Attendance.find(params[:id])
+    
+    if @user.id == 1
+      @users = User.joins(:attendances).
+        where(attendances: { overtime_application: "1" }).distinct
+    elsif @user.id == 2
+      @users = User.joins(:attendances).
+        where(attendances: { overtime_application: "2" }).distinct
+    elsif @user.id == 3
+      @users = User.joins(:attendances).
+        where(attendances: { overtime_application: "3" }).distinct
+    end
+    
+    if @user.id == 1
+      @attendances = Attendance.where(overtime_application: "1")
+    elsif @user.id == 2
+      @attendances = Attendance.where(overtime_application: "2")
+    elsif @user.id == 3
+      @attendances = Attendance.where(overtime_application: "3")
+    end
+    
+    @users.update_all()
     
   end
   
@@ -126,6 +164,10 @@ class UsersController < ApplicationController
   
     def user_params
       params.require(:user).permit(:name, :email, :department, :password, :password_confirmation, :employee_number, :u_id, :basic_time, :designated_work_start_time, :designated_work_end_time, :superior)
+    end
+    
+    def admin_params_1
+      params.require(:user).permit(:overtime_n)
     end
     
     def set_search

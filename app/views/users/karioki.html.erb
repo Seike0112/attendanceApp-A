@@ -536,3 +536,56 @@ end
                 <td><%= link_to "確認する", '#', class: "btn btn-primary btn-sm" %></td>
               </tr>
             </tbody>
+            
+            2020/1/10
+            @attendances = Attendance.where.not(overtime: nil).
+              where(overtime_application: "1")
+              
+            <% if attendance.user_id == user.id %>
+            
+            <% end %>
+            
+              <% @attendances.each do |attendance| %>
+                <% if attendance.user_id == user.id %>
+                  <tbody class="center">
+                    <tr>
+                      <td><%= l(attendance.worked_on, format: :short) %></td>
+                      <td>
+                        <% if attendance.worked_on.wday == 6 %>
+                            <font color="blue">土</font>
+                        <% elsif attendance.worked_on.wday == 0 %>
+                            <font color="red">日</font>
+                        <% elsif attendance.worked_on.wday == 1 %>
+                            <font color="black">月</font>
+                        <% elsif attendance.worked_on.wday == 2 %>
+                            <font color="black">火</font>
+                        <% elsif attendance.worked_on.wday == 3 %>
+                            <font color="black">水</font>
+                        <% elsif attendance.worked_on.wday == 4 %>
+                            <font color="black">木</font>
+                        <% elsif attendance.worked_on.wday == 5 %>
+                            <font color="black">金</font>
+                        <% end %>                             
+                      </td>
+                      <td><%= l(attendance.overtime.floor_to(15.minutes), format: :time) %></td>
+                      <td>18.00</td>
+                      <td>
+                        <% if attendance.check_botan == true && attendance.overtime.present? && user.designated_work_end_time = attendance.worked_on %>
+                          <%= overtimes_true(attendance.overtime, user.designated_work_end_time) %>
+                          
+                        <% elsif attendance.check_botan == false && attendance.overtime.present? && user.designated_work_end_time = attendance.worked_on %>
+                          <%= overtimes_false(attendance.overtime, user.designated_work_end_time) %>
+                          
+                        <% end %>        
+                      </td>
+                      <td><%= attendance.overtime_note %></td>
+                      <td><%= f.select :overtime_n, [['なし', 0], ['承認', 1], ['否認', 2], ['申請中', 3]] %></td>
+                      <td><%= f.check_box :check_botan, :as => :boolean, checked: false %></td>
+                      <td><%= link_to "確認する", '#', class: "btn btn-primary btn-sm" %></td>
+                      <td>
+                        
+                      </td>
+                    </tr>
+                  </tbody>
+                <% end %>  
+              <% end %>
