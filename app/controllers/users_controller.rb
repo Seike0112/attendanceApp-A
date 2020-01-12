@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   before_action :admin_user, only: [:index, :destroy, :edit_basic_info, :update_basic_info]
   before_action :set_one_month, only: :show
   before_action :admin_or_correct_user, only: [:show, :edit, :update]
+  before_action :admin_not, only: :show
   
   def index
     @users = set_search.paginate(page: params[:page]).includes(:attendances)
@@ -21,7 +22,6 @@ class UsersController < ApplicationController
     elsif @user.id == 3
       @app = Attendance.where(overtime_application: "3")
     end
-    
   end
   
   def new
@@ -135,28 +135,27 @@ class UsersController < ApplicationController
   
   def overtime_admin_update
     @user = User.find(params[:id])
+    @users = User.all
+    @superior_1 = User.joins(:attendances).where(attendances: { overtime_application: "2" })
+    @superior_2 = User.joins(:attendances).where(attendances: { overtime_application: "3" })
     
-    if @user.id == 1
-      @users = User.joins(:attendances).
-        where(attendances: { overtime_application: "1" }).distinct
-    elsif @user.id == 2
-      @users = User.joins(:attendances).
-        where(attendances: { overtime_application: "2" }).distinct
-    elsif @user.id == 3
-      @users = User.joins(:attendances).
-        where(attendances: { overtime_application: "3" }).distinct
+    ActiveRecord::Base.transaction do
+      if user_superior?
+        admin_params.each do |id, item|
+          users = User.find(id)
+          users.update_attributes!(item)
+          flash[:success] = "申請を更新しました。"
+        end
+        flash[:success] = "通っていない"
+        redirect_to user_url(@user)
+      else
+        flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+        redirect_to user_url(@user)
+      end
     end
-    
-    if @user.id == 1
-      @attendances = Attendance.where(overtime_application: "1")
-    elsif @user.id == 2
-      @attendances = Attendance.where(overtime_application: "2")
-    elsif @user.id == 3
-      @attendances = Attendance.where(overtime_application: "3")
-    end
-    
-    @users.update_all()
-    
+  rescue ActiveRecord::RecordInvalid
+      flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+      redirect_to attendances_edit_one_month_user_url(date: params[:date])
   end
   
   
@@ -166,8 +165,8 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :email, :department, :password, :password_confirmation, :employee_number, :u_id, :basic_time, :designated_work_start_time, :designated_work_end_time, :superior)
     end
     
-    def admin_params_1
-      params.require(:user).permit(:overtime_n)
+    def admin_params
+      params.permit(users: [:overtime_n, :change])[:users]
     end
     
     def set_search
@@ -191,6 +190,23 @@ class UsersController < ApplicationController
         flash[:danger] = "編集権限がありません。"
         redirect_to(root_url)
       end  
+    end
+    
+    def admin_not
+      @user = User.find(params[:id])
+      if current_user.admin?
+        redirect_to(root_url)
+      end
+    end
+    
+    def user_superior?
+      users = true
+      admin_params.each do |id, item|
+        if item[:overtime_n].black? && item[:change].blank?
+          next
+        end
+      end
+      return users
     end
 
 end

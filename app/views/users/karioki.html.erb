@@ -589,3 +589,20 @@ end
                   </tbody>
                 <% end %>  
               <% end %>
+              
+              
+          2020/1/11
+    if @user.id == 2
+      @superior_1.each do |user|
+        if user.update_attributes(admin_params)
+          flash[:success] = "申請を更新しました"
+        end
+      end
+    elsif @user.id == 3
+      @superior_2.each do |user|
+        if user.update_attributes(admin_params)
+          flash[:success] = "申請を更新しました"
+        end
+      end
+    end
+    redirect_to user_url(@user)
