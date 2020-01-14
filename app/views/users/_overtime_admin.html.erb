@@ -5,7 +5,7 @@
         <span aria-hidden="true">&times;</span>
       </button>
       <div class="modal-body">
-      <%= form_with(model: @user, url: overtime_admin_update_user_path, local: true, method: :patch) do |f| %>
+      <%= form_with(model: @user, url: overtime_admin_update_user_path(@user), local: true, method: :patch) do |f| %>
         <% @users.each do |user| %>
           <h1>【<%= user.name %>からの残業申請】</h1>
           <table class="table table-bordered table-striped table-condensed">
@@ -45,15 +45,13 @@
                         <% end %>                             
                       </td>
                       <td><%= l(attendance.overtime.floor_to(15.minutes), format: :time) %></td>
-                      <td>18.00</td>
+                      <td><%= l(user.designated_work_end_time.floor_to(15.minutes), format: :time) %></td>
                       <td>
-                        <% if attendance.check_botan == true && attendance.overtime.present? && user.designated_work_end_time = attendance.worked_on %>
-                          <%= overtimes_true(attendance.overtime, user.designated_work_end_time) %>
-                          
-                        <% elsif attendance.check_botan == false && attendance.overtime.present? && user.designated_work_end_time = attendance.worked_on %>
-                          <%= overtimes_false(attendance.overtime, user.designated_work_end_time) %>
-                          
-                        <% end %>        
+                        <% if attendance.check_botan == true && attendance.overtime.present? %>
+                          <%= overtimes_true(attendance.overtime.strftime("%T"), user.designated_work_end_time.strftime("%T")) %>
+                        <% elsif attendance.check_botan == false && attendance.overtime.present? %>
+                          <%= overtimes_false(attendance.overtime.strftime("%T"), user.designated_work_end_time.strftime("%T")) %>
+                        <% end %>      
                       </td>
                       <td><%= attendance.overtime_note %></td>
                       <td><%= f.select :overtime_n, [['なし', 0], ['承認', 1], ['否認', 2], ['申請中', 3]] %></td>

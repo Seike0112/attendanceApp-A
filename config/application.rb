@@ -17,6 +17,7 @@ module AttendanceAppB
     # デフォルトの言語を日本語に設定します。
     config.i18n.default_locale = :ja
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
+    
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

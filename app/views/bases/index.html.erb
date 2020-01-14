@@ -1,7 +1,7 @@
 <div class="container">
   <h1>拠点一覧</h1>
   <div>
-    
+    <% if @bases.present? %>
       <table class="table table-bordered table-condensed base-table">
         <tbody class="center">
           <tr>
@@ -21,12 +21,16 @@
               </td>
               <td class="base-point"><%= base.base_id %></td>
               <td class="base-point"><%= base.base_name %></td>
-              <td class="base-point"><%= base.attendance_typ %></td>
+              <% if base.attendance_typ == "0" %>
+                <td class="base-point">出勤</td>
+              <% elsif base.attendance_typ == "1" %>
+                <td class="base-point">退勤</td>
+              <% end %>
             </tr>
           <% end %>
         </tbody>
       </table>
-    
+    <% end %>
     <div class="new-point-button-area">
       <a class="btn btn-lg btn-primary btn-add" href="/bases/new">拠点情報追加</a>
     </div>

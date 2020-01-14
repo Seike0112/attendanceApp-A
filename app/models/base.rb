@@ -4,7 +4,7 @@ class Base < ApplicationRecord
     validates :attendance_typ, presence: true, length: { maximum: 50 }
     
     validates :base_id, presence: true, length: { maximum: 8 },
-                    uniqueness: true    
+                    uniqueness: true
 end
 
 

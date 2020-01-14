@@ -606,3 +606,17 @@ end
       end
     end
     redirect_to user_url(@user)
+    
+    
+    if user_superior?
+      admin_params.each do |id, item|
+        users = User.find(id)
+        users.update_attributes(item)
+        flash[:success] = "申請を更新しました。"
+      end
+      flash[:success] = "通っていない"       
+      redirect_to user_url(@user)
+    else
+      flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+      redirect_to user_url(@user)
+    end

@@ -43,11 +43,11 @@ module AttendancesHelper
   
   
   def overtimes_true(overtime, designated_work_end_time)
-    format("%.2f", (((overtime - designated_work_end_time).to_i / 60) / 60) + 6)
+    format("%.2f", (((overtime.to_time.floor_to(15.minutes) - designated_work_end_time.to_time.floor_to(15.minutes)).to_f / 60) / 60) + 24)
   end
   
   def overtimes_false(overtime, designated_work_end_time)
-    format("%.2f", (((overtime - designated_work_end_time).to_i / 60) / 60) - 18)
+    format("%.2f", (((overtime.to_time.floor_to(15.minutes) - designated_work_end_time.to_time.floor_to(15.minutes)).to_f / 60) / 60) - 0)
   end
 
   # 勤怠基本情報を指定のフォーマットで返します。 

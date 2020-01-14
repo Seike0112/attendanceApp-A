@@ -15,7 +15,7 @@ class BasesController < ApplicationController
       redirect_to bases_url
     else
       flash.now[:danger] = "拠点登録の新規作成に失敗しました。"
-      render :index
+      render :new
     end
   end
   
@@ -29,7 +29,8 @@ class BasesController < ApplicationController
       flash[:success] = "拠点の変更をしました。"
       redirect_to bases_url
     else
-      render :index
+      flash.now[:danger] = "記入漏れのため更新できませんでした。"
+      render :edit
     end
   end
   

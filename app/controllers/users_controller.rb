@@ -139,23 +139,15 @@ class UsersController < ApplicationController
     @superior_1 = User.joins(:attendances).where(attendances: { overtime_application: "2" })
     @superior_2 = User.joins(:attendances).where(attendances: { overtime_application: "3" })
     
-    ActiveRecord::Base.transaction do
-      if user_superior?
-        admin_params.each do |id, item|
-          users = User.find(id)
-          users.update_attributes!(item)
-          flash[:success] = "申請を更新しました。"
-        end
-        flash[:success] = "通っていない"
-        redirect_to user_url(@user)
-      else
-        flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
-        redirect_to user_url(@user)
+    if @user.id == 2
+      admin_params.each do |item|
+        users = User.find(params[:id])
+        users.update_attributes!(item)
+        flash[:success] = "申請を更新しました。"
       end
+      flash[:danger] = "admin_paramsを通過していない"
+      redirect_to user_url @user
     end
-  rescue ActiveRecord::RecordInvalid
-      flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
-      redirect_to attendances_edit_one_month_user_url(date: params[:date])
   end
   
   
@@ -166,7 +158,7 @@ class UsersController < ApplicationController
     end
     
     def admin_params
-      params.permit(users: [:overtime_n, :change])[:users]
+      params.permit(users: [:overtime_n, :change])
     end
     
     def set_search
@@ -195,6 +187,7 @@ class UsersController < ApplicationController
     def admin_not
       @user = User.find(params[:id])
       if current_user.admin?
+        flash[:success] = "管理者の勤怠表は存在しません。"
         redirect_to(root_url)
       end
     end
@@ -202,9 +195,7 @@ class UsersController < ApplicationController
     def user_superior?
       users = true
       admin_params.each do |id, item|
-        if item[:overtime_n].black? && item[:change].blank?
-          next
-        end
+        next
       end
       return users
     end
