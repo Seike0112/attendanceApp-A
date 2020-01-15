@@ -114,7 +114,13 @@ class UsersController < ApplicationController
   
   def overtime_admin_update
     @user = User.find(params[:id])
-    @users = User.where.not(attendances: {overtime: nil}).where.not(id: current_user).where(attendances: { overtime_application: current_user.name }).distinct(:name)
+    @users = 
+    @users.each do |user|
+      if user.update_attributes(admin_params)
+      end
+    end
+    flash[:success] = "更新しました"
+    redirect_to @user
   end
   
   

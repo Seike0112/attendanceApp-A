@@ -52,8 +52,6 @@ ActiveRecord::Schema.define(version: 20200110122542) do
     t.datetime "designated_work_start_time", default: "2020-01-14 23:00:00"
     t.datetime "designated_work_end_time", default: "2020-01-15 09:00:00"
     t.boolean "superior", default: false
-    t.string "overtime_n"
-    t.boolean "change", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
