@@ -46,13 +46,7 @@
                       <td><%= f.time_select :overtime, discard_year: true, discard_month: true, selected: @attendance.worked_on %></td>
                       <td><%= f.check_box :check_botan, :as => :boolean, checked: false %></td>
                       <td><%= f.text_field :overtime_note, class: "form-control" %></td>
-                      <% if @user.id == 2 %>
-                        <td><%= f.select :overtime_application, [['上長２', 3]] %></td>
-                      <% elsif @user.id == 3 %>
-                        <td><%= f.select :overtime_application, [['上長１', 2]] %></td>
-                      <% else %>
-                        <td><%= f.select :overtime_application, [['上長１', 2],['上長２', 3]] %></td>
-                      <% end %>
+                      <td><%= f.select :overtime_application, User.where.not(id: current_user).where.not(superior: false).pluck(:name) %></td>
                     </tr>
                   </tbody>
                 </table> 

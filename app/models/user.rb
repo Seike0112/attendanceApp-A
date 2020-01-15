@@ -16,6 +16,8 @@ class User < ApplicationRecord
   validates :work_time, presence: true
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  validates :employee_number, presence: true
+  validates :u_id, presence: true
 
   # 渡された文字列のハッシュ値を返します。
   def User.digest(string)
@@ -58,9 +60,9 @@ class User < ApplicationRecord
         # IDが見つかれば、レコードを呼び出し、見つかれなければ、新しく作成
         user = find_by(id: row["id"]) || new
         # CSVからデータを取得し、設定する
-          user.attributes = row.to_hash.slice(*updatable_attributes)
+        user.attributes = row.to_hash.slice(*updatable_attributes)
         # 保存する
-          user.save!
+        user.save!
       end
     end
   end

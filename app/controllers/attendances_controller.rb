@@ -54,6 +54,7 @@ class AttendancesController < ApplicationController
   def overtime
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:attendance_id])
+    @superior = User.where.not(superior: nil)
     respond_to do |format|
       format.html
       format.js

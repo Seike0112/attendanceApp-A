@@ -28,10 +28,10 @@
     <% if @user.admin || @user.superior %>
       <div>【所属長承認申請のお知らせ】</div><br>
       <div>【勤怠変更申請のお知らせ】</div><br>
-      <% if @app.count > 0 %>
-          <div><%= link_to "【残業申請のお知らせ】", overtime_admin_user_path(@user), remote: true, class: 'overtime-application' %> 
-            <div class="overtime-div"><%= @app.count %>件の通知があります</div>
-          </div>
+      <% if @app > 0 %>
+        <div><%= link_to "【残業申請のお知らせ】", overtime_admin_user_path(@user), remote: true, class: 'overtime-application' %> 
+          <div class="overtime-div"><%= @app %>件の通知があります</div>
+        </div>
       <% else %>
         <p>【残業申請のお知らせ】</p>
       <% end %>
@@ -139,19 +139,13 @@
           </tr>
         <% end %>
       </tbody>
-  
-      <tfoot class="bordered">
+      
+      <tfooter>
         <tr>
-        <td colspan="8">総合勤務時間　：</td>
-        <td colspan="7">合計在社時間　：</td>
-        <td>
-          所属長承認（）
-          <br>
-  
-        </td>
-      </tr>
-      </tfoot>
-   
+          <td></td>
+        </tr>
+      </tfooter>
+      
     </table>
   </div>
 

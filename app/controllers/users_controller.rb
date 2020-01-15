@@ -13,15 +13,10 @@ class UsersController < ApplicationController
   end
   
   def show
+    @attendance = Attendance.find(params[:id])
     @worked_sum = @attendances.where.not(started_at: nil).count
     @overtime_sum = Attendance.where.not(overtime_application: nil)
-    if @user.id == 1 
-      @app = Attendance.where(overtime_application: "1")
-    elsif @user.id == 2
-      @app = Attendance.where(overtime_application: "2")
-    elsif @user.id == 3
-      @app = Attendance.where(overtime_application: "3")
-    end
+    @app = User.joins(:attendances).where.not(attendances: {overtime: nil}).where.not(id: current_user).where(attendances: { overtime_application: current_user.name }).count 
   end
   
   def new
@@ -112,42 +107,14 @@ class UsersController < ApplicationController
   
   def overtime_admin
     @user = User.find(params[:id])
+    @users = User.joins(:attendances).where.not(attendances: {overtime: nil}).where.not(id: current_user).where(attendances: { overtime_application: current_user.name }).distinct(:name)
+    @attendances = Attendance.joins(:user).where(overtime_application: current_user.name)
     
-    if @user.id == 1
-      @users = User.joins(:attendances).
-        where(attendances: { overtime_application: "1" }).distinct
-    elsif @user.id == 2
-      @users = User.joins(:attendances).
-        where(attendances: { overtime_application: "2" }).distinct
-    elsif @user.id == 3
-      @users = User.joins(:attendances).
-        where(attendances: { overtime_application: "3" }).distinct
-    end
-    
-    if @user.id == 1
-      @attendances = Attendance.where(overtime_application: "1")
-    elsif @user.id == 2
-      @attendances = Attendance.where(overtime_application: "2")
-    elsif @user.id == 3
-      @attendances = Attendance.where(overtime_application: "3")
-    end
   end
   
   def overtime_admin_update
     @user = User.find(params[:id])
-    @users = User.all
-    @superior_1 = User.joins(:attendances).where(attendances: { overtime_application: "2" })
-    @superior_2 = User.joins(:attendances).where(attendances: { overtime_application: "3" })
-    
-    if @user.id == 2
-      admin_params.each do |item|
-        users = User.find(params[:id])
-        users.update_attributes!(item)
-        flash[:success] = "申請を更新しました。"
-      end
-      flash[:danger] = "admin_paramsを通過していない"
-      redirect_to user_url @user
-    end
+    @users = User.where.not(attendances: {overtime: nil}).where.not(id: current_user).where(attendances: { overtime_application: current_user.name }).distinct(:name)
   end
   
   
