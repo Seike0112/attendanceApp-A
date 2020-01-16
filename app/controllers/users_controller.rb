@@ -17,6 +17,7 @@ class UsersController < ApplicationController
     @worked_sum = @attendances.where.not(started_at: nil).count
     @overtime_sum = Attendance.where.not(overtime_application: nil)
     @app = User.joins(:attendances).where.not(attendances: {overtime: nil}).where.not(id: current_user).where(attendances: { overtime_application: current_user.name }).count 
+    @application = Attendance.where.not(app_number: nil).pluck(:app_number)
   end
   
   def new
@@ -115,10 +116,9 @@ class UsersController < ApplicationController
   def overtime_admin_update
     @user = User.find(params[:id])
     @users = User.joins(:attendances).where.not(attendances: {overtime: nil}).where.not(id: current_user).where(attendances: { overtime_application: current_user.name })
-    @users.each do |user|
-      user.attendances.each do |superior|
-        
-      end
+    @attendances = Attendance.joins(:user).where.not(overtime: nil).where.not(user_id: current_user.id).where(overtime_application: current_user.name)
+    ActiveRecord::Base.transaction do
+      Attendance.attendance_update(admin_params)
     end
     flash[:success] = "ユーザーからの申請を更新しました。"
     redirect_to @user
@@ -173,5 +173,6 @@ class UsersController < ApplicationController
       end
       return users
     end
+    
 
 end

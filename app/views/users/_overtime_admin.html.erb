@@ -56,8 +56,10 @@
                         <% end %>      
                       </td>
                       <td><%= attendance.overtime_note %></td>
-                      <td><%= f.select :app_number, [['なし', 0], ['承認', 1], ['否認', 2], ['申請中', 3]], { include_blank: true, selected: 0 } %></td>
-                      <td><%= f.check_box :change_button,:as => :boolean, checked: false %></td>
+                      <%= f.fields_for "attendances[]", attendance do |at| %>
+                        <td><%= at.select :app_number, [['なし', 0], ['承認', 1], ['否認', 2], ['申請中', 3]], { include_blank: true, selected: 0 } %></td>
+                        <td><%= at.check_box :change_button,:as => :boolean, checked: false %></td>
+                      <% end %>
                       <td><%= link_to "確認する", '#', class: "btn btn-primary btn-sm" %></td>
                     </tr>
                   </tbody>

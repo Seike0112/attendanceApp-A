@@ -72,7 +72,7 @@ class User < ApplicationRecord
     ["name", "email", "department", "employee_number", "u_id", "basic_time", "designated_work_start_time", "designated_work_end_time", "superior", "admin", "password"]
   end
   
-  # enum name:[:"管理者", :"上長１", :"上長２"]
+  
 
 
 end

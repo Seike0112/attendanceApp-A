@@ -19,6 +19,11 @@ class Attendance < ApplicationRecord
     end
   end
   
-  
+  def self.attendance_update(admin_params)
+    admin_params.to_h.map do |id, admin_params|
+      superior = self.find(id)
+      superior.update_attributes!(admin_params)
+    end
+  end
   
 end
