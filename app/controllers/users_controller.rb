@@ -114,12 +114,13 @@ class UsersController < ApplicationController
   
   def overtime_admin_update
     @user = User.find(params[:id])
-    @users = 
+    @users = User.joins(:attendances).where.not(attendances: {overtime: nil}).where.not(id: current_user).where(attendances: { overtime_application: current_user.name })
     @users.each do |user|
-      if user.update_attributes(admin_params)
+      user.attendances.each do |superior|
+        
       end
     end
-    flash[:success] = "更新しました"
+    flash[:success] = "ユーザーからの申請を更新しました。"
     redirect_to @user
   end
   
@@ -131,7 +132,7 @@ class UsersController < ApplicationController
     end
     
     def admin_params
-      params.permit(users: [:overtime_n, :change])
+      params.require(:user).permit(attendances: [:app_number, :change_button])[:attendances]
     end
     
     def set_search

@@ -54,7 +54,7 @@ class AttendancesController < ApplicationController
   def overtime
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:attendance_id])
-    @superior = User.where.not(superior: nil)
+    @superior = User.where.not(id: current_user).where.not(superior: false).pluck(:name)
     respond_to do |format|
       format.html
       format.js
@@ -66,7 +66,6 @@ class AttendancesController < ApplicationController
     @attendance = Attendance.find(params[:attendance_id])
     check_judge
     if @attendance.update_attributes(overtime_params)
-      @user.designated_work_end_time = @attendance.worked_on
       flash[:success] = "残業情報を更新しました。"
       redirect_to @user
     else
