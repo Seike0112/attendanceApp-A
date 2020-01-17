@@ -16,8 +16,8 @@ class UsersController < ApplicationController
     @attendance = Attendance.find(params[:id])
     @worked_sum = @attendances.where.not(started_at: nil).count
     @overtime_sum = Attendance.where.not(overtime_application: nil)
-    @app = User.joins(:attendances).where.not(attendances: {overtime: nil}).where.not(id: current_user).where(attendances: { overtime_application: current_user.name }).count 
-    @application = Attendance.where.not(app_number: nil).pluck(:app_number)
+    @app = User.joins(:attendances).where.not(id: current_user.id).where(attendances: { overtime_application: current_user.name }).count
+    @app_sub = User.joins(:attendances).where(attendances: {change_button: 0}).where(attendances: {overtime_application: current_user.name}).where.not(id: current_user.id).count 
   end
   
   def new
@@ -108,7 +108,8 @@ class UsersController < ApplicationController
   
   def overtime_admin
     @user = User.find(params[:id])
-    @users = User.joins(:attendances).where.not(attendances: {overtime: nil}).where.not(id: current_user).where(attendances: { overtime_application: current_user.name }).distinct(:name)
+    @users = User.joins(:attendances).where.not(attendances: {overtime: nil}).where.not(id: current_user).where(attendances: { overtime_application: current_user.name }).where(attendances: {change_button: 0}).distinct(:name)
+    @user_judge = User.joins(:attendances).where(attendances: {change_button: 0}).where(attendances: {overtime_application: current_user.name}).where.not(id: current_user.id).count
     @attendances = Attendance.joins(:user).where(overtime_application: current_user.name)
     
   end
@@ -116,6 +117,7 @@ class UsersController < ApplicationController
   def overtime_admin_update
     @user = User.find(params[:id])
     @users = User.joins(:attendances).where.not(attendances: {overtime: nil}).where.not(id: current_user).where(attendances: { overtime_application: current_user.name })
+    @user_judge = User.joins(:attendances).where(attendances: {change_button: 0}).where(attendances: {overtime_application: current_user.name}).where.not(id: current_user.id).count
     @attendances = Attendance.joins(:user).where.not(overtime: nil).where.not(user_id: current_user.id).where(overtime_application: current_user.name)
     ActiveRecord::Base.transaction do
       Attendance.attendance_update(admin_params)

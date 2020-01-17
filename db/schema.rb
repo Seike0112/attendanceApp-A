@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20200115154400) do
     t.string "overtime_note"
     t.boolean "check_botan", default: false
     t.string "app_number"
-    t.string "change_button"
+    t.string "change_button", default: "0"
     t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 
@@ -46,12 +46,12 @@ ActiveRecord::Schema.define(version: 20200115154400) do
     t.string "remember_digest"
     t.boolean "admin", default: false
     t.string "department"
-    t.datetime "basic_time", default: "2020-01-15 23:00:00"
-    t.datetime "work_time", default: "2020-01-15 22:30:00"
+    t.datetime "basic_time", default: "2020-01-16 23:00:00"
+    t.datetime "work_time", default: "2020-01-16 22:30:00"
     t.integer "employee_number"
     t.string "u_id"
-    t.datetime "designated_work_start_time", default: "2020-01-15 23:00:00"
-    t.datetime "designated_work_end_time", default: "2020-01-16 09:00:00"
+    t.datetime "designated_work_start_time", default: "2020-01-16 23:00:00"
+    t.datetime "designated_work_end_time", default: "2020-01-17 09:00:00"
     t.boolean "superior", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
