@@ -4,8 +4,9 @@ class UsersController < ApplicationController
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: [:index, :destroy, :edit_basic_info, :update_basic_info]
   before_action :set_one_month, only: :show
-  before_action :admin_or_correct_user, only: [:show, :edit, :update]
+  before_action :admin_or_correct_user_or_superior, only: [:show, :edit, :update]
   before_action :admin_not, only: :show
+  
   
   def index
     @users = set_search.paginate(page: params[:page]).includes(:attendances)
@@ -120,9 +121,17 @@ class UsersController < ApplicationController
     @user_judge = User.joins(:attendances).where(attendances: {change_button: 0}).where(attendances: {overtime_application: current_user.name}).where.not(id: current_user.id).count
     @attendances = Attendance.joins(:user).where.not(overtime: nil).where.not(user_id: current_user.id).where(overtime_application: current_user.name)
     ActiveRecord::Base.transaction do
-      Attendance.attendance_update(admin_params)
+      if superior_invalid
+        Attendance.attendance_update(admin_params)
+        flash[:success] = "ユーザーからの申請を更新しました。"
+        redirect_to @user
+      else
+        flash[:info] = "一部の情報を「なし」か「申請中」で更新しました。今一度ご確認ください。"
+        redirect_to @user
+      end
     end
-    flash[:success] = "ユーザーからの申請を更新しました。"
+  rescue ActiveRecord::RecordInvalid
+    flash[:danger] = "変更ボタンを押していないか確認してください。"
     redirect_to @user
   end
   
@@ -152,9 +161,9 @@ class UsersController < ApplicationController
     end
     
     # 管理権限者、または現在ログインしているユーザーを許可します。
-    def admin_or_correct_user
+    def admin_or_correct_user_or_superior
       @user = User.find(params[:user_id]) if @user.blank?
-      unless current_user?(@user) || current_user.admin?
+      unless current_user?(@user) || current_user.admin? || current_user.superior?
         flash[:danger] = "編集権限がありません。"
         redirect_to(root_url)
       end  
@@ -168,13 +177,22 @@ class UsersController < ApplicationController
       end
     end
     
-    def user_superior?
-      users = true
-      admin_params.each do |id, item|
-        next
+    def superior_invalid
+      superior = true
+      admin_params.each do |id, admin_params|
+        if admin_params[:change_button] == "1" && admin_params[:app_number] == "1" || admin_params[:app_number] == "2"
+          superior = true
+          next
+        elsif admin_params[:change_button] == "1" && admin_params[:app_number] == "0" || admin_params[:app_number] == "3"
+          superior = false
+          break
+        elsif admin_params[:change_button] == "0"
+          superior = false
+          break
+        end
       end
-      return users
-    end
+      return superior
+    end  
     
 
 end

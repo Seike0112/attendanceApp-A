@@ -31,6 +31,8 @@ module AttendancesHelper
     return attendances
   end
   
+     
+  
   def check_judge
       if @attendance.check_botan == true 
         @attendance.worked_on = @attendance.worked_on
@@ -38,6 +40,8 @@ module AttendancesHelper
         @attendance.worked_on = @attendance.worked_on
       end
   end 
+  
+  
   
   
   

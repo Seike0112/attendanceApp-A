@@ -38,7 +38,7 @@ class AttendancesController < ApplicationController
         attendances_params.each do |id, item|
           attendance = Attendance.find(id)
           attendance.update_attributes!(item)
-      end
+        end
         flash[:success] = "1ヶ月分の勤怠情報を更新しました。"
         redirect_to user_url(date: params[:date])
       else
@@ -66,7 +66,7 @@ class AttendancesController < ApplicationController
     @attendance = Attendance.find(params[:attendance_id])
     check_judge
     if @attendance.update_attributes(overtime_params)
-      flash[:success] = "残業情報を更新しました。"
+      flash[:success] = "#{@attendance.overtime_application}に残業申請を送信しました。"
       redirect_to @user
     else
       flash[:danger] = "残業情報を更新できませんでした。"
