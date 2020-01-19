@@ -19,6 +19,8 @@ class UsersController < ApplicationController
     @overtime_sum = Attendance.where.not(overtime_application: nil)
     @app = User.joins(:attendances).where.not(id: current_user.id).where(attendances: { overtime_application: current_user.name }).count
     @app_sub = User.joins(:attendances).where(attendances: {change_button: 0}).where(attendances: {overtime_application: current_user.name}).where.not(id: current_user.id).count 
+    @one_month_app = User.joins(:attendances).where(app_name: current_user.name).where.not(id: current_user.id).where(attendances: { worked_on: @first_day }).count
+    
   end
   
   def new
@@ -135,6 +137,17 @@ class UsersController < ApplicationController
     redirect_to @user
   end
   
+  def one_month_application
+    @user = User.find(params[:id])
+    if @user.update_attributes(one_month_application_params)
+      flash[:success] = "#{@user.app_name}様に、１ヶ月分の勤怠情報の申請をしました。"
+      redirect_to @user
+    else
+      flash[:danger] = "#{@user.app_name}様に、再度申請を行ってください。"
+      redirect_to @user
+    end
+  end
+  
   
   private
   
@@ -142,8 +155,14 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :email, :department, :password, :password_confirmation, :employee_number, :u_id, :basic_time, :designated_work_start_time, :designated_work_end_time, :superior)
     end
     
+    #残業申請：上長承認モーダルの更新strong_params
     def admin_params
       params.require(:user).permit(attendances: [:app_number, :change_button])[:attendances]
+    end
+    
+    #１ヶ月分の勤怠申請：ユーザー側の申請strong_params
+    def one_month_application_params
+      params.require(:user).permit(:app_name)
     end
     
     def set_search

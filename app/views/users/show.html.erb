@@ -35,7 +35,13 @@
   <div>
     <% if current_user.id == @user.id %>
       <% if @user.admin || @user.superior %>
-        <div>【所属長承認申請のお知らせ】</div><br>
+        <% if @one_month_app > 0 %>
+          <div><%= link_to "【所属長承認申請のお知らせ】", "#",  remote: true, class: 'overtime-application' %>
+            <div class="overtime-div"><%= @one_month_app %>件の通知がきております。</div>
+          </div><br>
+        <% else %>
+          <div>【所属長承認申請のお知らせ】</div><br>
+        <% end %>
         <div>【勤怠変更申請のお知らせ】</div><br>
         <% if @app_sub > 0 %>
           <div><%= link_to "【残業申請のお知らせ】", overtime_admin_user_path(@user), remote: true, class: 'overtime-application' %> 
@@ -164,9 +170,9 @@
               <% if day.change_button == "0" && day.overtime.present? || day.app_number == "3" && day.app_number == "0" %>
                 <%= day.overtime_application %>に申請中<br>
               <% elsif day.app_number == "1" && day.change_button == "1" %>
-                残業承認済<br>
+                <%= day.overtime_application %>から残業承認済<br>
               <% elsif day.app_number == "2" && day.change_button == "1" %>  
-                 残業否認<br>
+                 <%= day.overtime_application %>から残業否認<br>
               <% end %>
               <% if @user.email.present? %> 
               <% end %>
@@ -178,11 +184,28 @@
       <tfooter>
         <tr>
           <td></td>
+          <td colspan="2"></td>
+          <td colspan="6"></td>
+          <td><%= format("%.2f", @total_working_times.to_f) %></td>
+          <td colspan="5"></td>
+          <% if current_user == @user %>
+            <td>
+              所属長承認　未<br>
+              <%= form_with(model: @user, url: one_month_application_user_path(@user), local: true) do |f| %> 
+                <%= f.select :app_name, User.where.not(id: current_user.id).where(superior: true).pluck(:name) %><br><br>
+                <%= f.submit "申請", class: "btn btn-default btn-primary form-control" %>
+              <% end %>
+            </td>
+          <% else %>
+            <td></td>
+          <% end %>
         </tr>
       </tfooter>
       
     </table>
   </div>
+  
+  <%= @attendances.count %>
 
 <div id="overtime" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="overtime_admin" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>

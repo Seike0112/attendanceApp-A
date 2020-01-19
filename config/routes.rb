@@ -32,11 +32,11 @@ Rails.application.routes.draw do
       get 'attendances/attendance_index'
       patch 'user_index_edit'
       get 'attendance_log'
-      #未実装 勤怠ログ
-      patch 'log-update'
       #残業申請　上長
       get 'overtime_admin'
       patch 'overtime_admin_update'
+      #１ヶ月分の勤怠情報申請
+      patch 'one_month_application'
     end
     resources :attendances, only: [:update] do
       get 'overtime'
