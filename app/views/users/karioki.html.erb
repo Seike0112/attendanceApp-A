@@ -628,3 +628,6 @@ end
      elsif admin_params[:change_button] == "1" && admin_params[:app_number] == "0" || admin_params[:app_number] == "3"
      flash[:success] =  "変更ボタンにチェックを入れてください。"
         redirect_to @user
+        
+    2020/1/19
+    User.joins(:attendances).where(app_name: current_user.name).where.not(id: current_user.id).where(attendances: { worked_on: @first_day }).count

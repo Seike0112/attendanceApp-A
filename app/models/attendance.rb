@@ -26,6 +26,11 @@ class Attendance < ApplicationRecord
     end
   end
   
-  
+  def self.one_month_up(one_month_application_params)
+    one_month_application_params.to_h.map do |id, one_month_application_params|
+      one_month = self.find(id)
+      one_month.update_attributes!(one_month_application_params)
+    end
+  end
   
 end

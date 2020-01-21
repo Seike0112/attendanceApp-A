@@ -19,7 +19,8 @@ class UsersController < ApplicationController
     @overtime_sum = Attendance.where.not(overtime_application: nil)
     @app = User.joins(:attendances).where.not(id: current_user.id).where(attendances: { overtime_application: current_user.name }).count
     @app_sub = User.joins(:attendances).where(attendances: {change_button: 0}).where(attendances: {overtime_application: current_user.name}).where.not(id: current_user.id).count 
-    @one_month_app = User.joins(:attendances).where(app_name: current_user.name).where.not(id: current_user.id).where(attendances: { worked_on: @first_day }).count
+    @name_ins = User.joins(:attendances).where.not(id: current_user.id).where(superior: true).pluck(:name)
+    @one_month_app = User.joins(:attendances).where(attendances: { app_name: current_user.name }).where.not(id: current_user.id).count
     
   end
   
@@ -139,13 +140,10 @@ class UsersController < ApplicationController
   
   def one_month_application
     @user = User.find(params[:id])
-    if @user.update_attributes(one_month_application_params)
-      flash[:success] = "#{@user.app_name}様に、１ヶ月分の勤怠情報の申請をしました。"
-      redirect_to @user
-    else
-      flash[:danger] = "#{@user.app_name}様に、再度申請を行ってください。"
-      redirect_to @user
-    end
+    @attendance = Attendance.find(params[:id])
+    Attendance.one_month_up(one_month_application_params)
+    flash[:success] = "１ヶ月分の勤怠申請を送信しました。"
+    redirect_to @user
   end
   
   
@@ -162,7 +160,7 @@ class UsersController < ApplicationController
     
     #１ヶ月分の勤怠申請：ユーザー側の申請strong_params
     def one_month_application_params
-      params.require(:user).permit(:app_name)
+      params.require(:user).permit(attendances: [:app_name])[:attendances]
     end
     
     def set_search
