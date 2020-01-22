@@ -10,7 +10,7 @@ User.create!(name: "管理者",
              admin: true,
             )
              
-User.create!(name: "上長１",
+User.create!(name: "伊藤上長",
              email: "superior-1@email.com",
              password: "password",
              password_confirmation: "password",
@@ -19,7 +19,7 @@ User.create!(name: "上長１",
              employee_number: "1111",
              superior: true)
              
-User.create!(name: "上長２",
+User.create!(name: "田中上長",
              email: "superior-2@email.com",
              password: "password",
              password_confirmation: "password",

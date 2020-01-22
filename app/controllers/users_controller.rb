@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     @app = User.joins(:attendances).where.not(id: current_user.id).where(attendances: { overtime_application: current_user.name }).count
     @app_sub = User.joins(:attendances).where(attendances: {change_button: 0}).where(attendances: {overtime_application: current_user.name}).where.not(id: current_user.id).count 
     @name_ins = User.joins(:attendances).where.not(id: current_user.id).where(superior: true).pluck(:name)
-    @one_month_app = User.joins(:attendances).where(attendances: { app_name: current_user.name }).where.not(id: current_user.id).count
+    @one_month_app = User.joins(:attendances).where(attendances: { app_name: current_user.name }).where.not(id: current_user.id).where(attendances: {one_change_b: 0}).count
     
   end
   
@@ -156,8 +156,23 @@ class UsersController < ApplicationController
   
   def modal_one_month
     @user = User.find(params[:id])
-    @users = User.joins(:attendances).where.not(id: current_user).where(attendances: { app_name: current_user.name }).distinct(:name)
-    @one_month = Attendance.joins(:user).where(app_name: current_user.name ).where.not(user_id: current_user.id)    
+    @users = User.joins(:attendances).where.not(id: current_user).where(attendances: { app_name: current_user.name }).where(attendances: { one_change_b:  "0"}).distinct(:name)
+    @one_month = Attendance.joins(:user).where(app_name: current_user.name ).where.not(user_id: current_user.id).where(one_change_b: 0)    
+  end
+  
+  def admin_modal_one_month
+    @user = User.find(params[:id])
+      if one_invalid 
+        Attendance.admin_modal_one_up(admin_one_params)
+        flash[:success] = "ユーザーからの申請を更新しました。"
+        redirect_to @user
+      else
+        flash[:info] = "一部の情報を「なし」か「申請中」で更新しました。今一度ご確認ください。"
+        redirect_to @user
+      end
+  rescue ActiveRecord::RecordInvalid
+    flash[:danger] = "変更ボタンを押していないか確認してください。"
+    redirect_to @user
   end
   
   private
@@ -174,6 +189,11 @@ class UsersController < ApplicationController
     #１ヶ月分の勤怠申請：ユーザー側の申請strong_params
     def one_month_application_params
       params.require(:user).permit(attendances: [:app_name])[:attendances]
+    end
+    
+    #１ヶ月分の勤怠申請：上長側の申請strong_params
+    def admin_one_params
+      params.require(:user).permit(attendances: [:one_app_n, :one_change_b])[:attendances]
     end
     
     def set_search
@@ -224,7 +244,22 @@ class UsersController < ApplicationController
       return superior
     end  
     
-   
+    def one_invalid
+      one_admin = true
+      admin_one_params.each do |id, admin_one_params|
+        if admin_one_params[:one_change_b] == "1" && admin_one_params[:one_app_n] == "1" || admin_one_params[:one_app_n] == "2"
+          one_admin = true
+          next
+        elsif admin_one_params[:one_change_b] == "1" && admin_one_params[:one_app_n] == "0" || admin_one_params[:one_app_n] == "3"
+          one_admin = false
+          break
+        elsif admin_one_params[:one_change_b] == "0"
+          one_admin = false
+          break
+        end
+      end
+      return one_admin
+    end
     
 
 end

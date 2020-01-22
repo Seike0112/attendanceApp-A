@@ -24,8 +24,10 @@
                   <tbody class="center">
                     <tr>
                       <td><%= l(one.worked_on, format: :middle) %></td>
-                      <td></td>
-                      <td>as</td>
+                      <%= f.fields_for "attendances[]", one do |ad| %>
+                        <td><%= ad.select :one_app_n, [['なし', 0], ['承認', 1], ['否認', 2], ['申請中', 3]], { include_blank: true, selected: 0 } %></td>
+                        <td><%= ad.check_box :one_change_b,:as => :boolean, checked: false %></td>
+                      <% end %>
                       <td><%= link_to "確認する", user_path(user), class: "btn btn-primary btn-sm" %></td>
                     </tr>
                   </tbody>
@@ -33,6 +35,9 @@
               <% end %>
             </table>
           <% end %>
+          <div class="center">
+            <%= f.submit "変更を送信する", class: "btn btn-primary btn-lg" %>
+          </div><br>
         <% end %>
       </div>          
     </div>

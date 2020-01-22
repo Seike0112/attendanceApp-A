@@ -168,7 +168,7 @@
             <% end %>
             <td>
               <% if day.change_button == "0" && day.overtime.present? || day.app_number == "3" && day.app_number == "0" %>
-                <%= day.overtime_application %>に申請中<br>
+                <%= day.overtime_application %>に残業申請中<br>
               <% elsif day.app_number == "1" && day.change_button == "1" %>
                 <%= day.overtime_application %>から残業承認済<br>
               <% elsif day.app_number == "2" && day.change_button == "1" %>  

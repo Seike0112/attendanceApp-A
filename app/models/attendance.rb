@@ -33,4 +33,11 @@ class Attendance < ApplicationRecord
     end
   end
   
+  def self.admin_modal_one_up(admin_one_params)
+    admin_one_params.to_h.map do |id, admin_one_params|
+      admin_one = self.find(id)
+      admin_one.update_attributes!(admin_one_params)
+    end
+  end
+  
 end
