@@ -190,13 +190,18 @@
           <td colspan="5"></td>
           <% if current_user == @user %>
             <td>
-              <% if @attendance.app_name.blank? %>
-                所属長承認　未<br>
-                <% @attendances.where(worked_on: @first_day).each do |attendance| %> 
-                  <%= form_with(model: @user, url: one_month_application_user_path(@user, @attendance), local: true) do |f| %> 
-                    <%= f.fields_for "attendances[]", attendance do |t| %>
-                      <%= t.select :app_name, User.where.not(id: current_user.id).where(superior: true).pluck(:name) %><br><br>
+              <% @attendances.where(worked_on: @first_day).each do |attendance| %> 
+                <%= form_with(model: @user, url: one_month_application_user_path(@user, @attendance), local: true) do |f| %> 
+                  <% if attendance.app_name.blank? %>
+                    所属長承認　未<br>
+                  <% else %>
+                    <%= attendance.app_name %>に申請中<br>
+                  <% end %>
+                  <%= f.fields_for "attendances[]", attendance do |t| %>
+                    <%= t.select :app_name, User.where.not(id: current_user.id).where(superior: true).pluck(:name) %><br><br>
+                    <% if attendance.app_name.blank? %>
                       <%= t.submit "申請", class: "btn btn-default btn-primary form-control" %>
+                    <% else %>
                     <% end %>
                   <% end %>
                 <% end %>

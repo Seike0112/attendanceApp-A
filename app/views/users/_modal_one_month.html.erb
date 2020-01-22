@@ -9,7 +9,29 @@
       <div class="modal-body">
         <%= form_with(model: @user, url: admin_modal_one_month_user_path(@user, @attendance), local: true, method: :patch) do |f| %>
           <% @users.each do |user| %>
-            <h1>【<%= user.name %>】</h1>
+            <table class="table table-bordered table-striped table-condensed">
+              <h1>【<%= user.name %>】</h1>
+              <thead id="table-attendances">
+                <tr>
+                  <th>年 / 月</th>
+                  <th>指示確認㊞</th>
+                  <th>変更</th>
+                  <th>勤怠を確認する</th>
+                  </tr>
+              </thead>
+              <% @one_month.each do |one| %>
+                <% if one.user.id == user.id %>
+                  <tbody class="center">
+                    <tr>
+                      <td><%= l(one.worked_on, format: :middle) %></td>
+                      <td></td>
+                      <td>as</td>
+                      <td><%= link_to "確認する", user_path(user), class: "btn btn-primary btn-sm" %></td>
+                    </tr>
+                  </tbody>
+                <% end %>  
+              <% end %>
+            </table>
           <% end %>
         <% end %>
       </div>          

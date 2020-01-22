@@ -44,6 +44,7 @@ ja:
       short: "%-m/%-d"
       hour: "%H"
       minit: "%M"
+      month: "%m月"
     month_names:
     - 
     - 1月

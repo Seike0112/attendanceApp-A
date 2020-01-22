@@ -157,6 +157,7 @@ class UsersController < ApplicationController
   def modal_one_month
     @user = User.find(params[:id])
     @users = User.joins(:attendances).where.not(id: current_user).where(attendances: { app_name: current_user.name }).distinct(:name)
+    @one_month = Attendance.joins(:user).where(app_name: current_user.name ).where.not(user_id: current_user.id)    
   end
   
   private
