@@ -36,8 +36,8 @@
     <% if current_user.id == @user.id %>
       <% if @user.admin || @user.superior %>
         <% if @one_month_app > 0 %>
-          <div><%= link_to "【所属長承認申請のお知らせ】", "#",  remote: true, class: 'overtime-application' %>
-            <div class="overtime-div"><%= @one_month_app %>件の通知がきております。</div>
+          <div><%= link_to "【所属長承認申請のお知らせ】", modal_one_month_user_path(@user), remote: true, class: 'overtime-application' %>
+            <div class="overtime-div"><%= @one_month_app %>件の通知があります。</div>
           </div><br>
         <% else %>
           <div>【所属長承認申請のお知らせ】</div><br>
@@ -190,12 +190,14 @@
           <td colspan="5"></td>
           <% if current_user == @user %>
             <td>
-              所属長承認　未<br>
-              <% @attendances.where(worked_on: @first_day).each do |attendance| %> 
-                <%= form_with(model: @user, url: one_month_application_user_path(@user, @attendance), local: true) do |f| %> 
-                  <%= f.fields_for "attendances[]", attendance do |t| %>
-                    <%= t.select :app_name, User.where.not(id: current_user.id).where(superior: true).pluck(:name) %><br><br>
-                    <%= t.submit "申請", class: "btn btn-default btn-primary form-control" %>
+              <% if @attendance.app_name.blank? %>
+                所属長承認　未<br>
+                <% @attendances.where(worked_on: @first_day).each do |attendance| %> 
+                  <%= form_with(model: @user, url: one_month_application_user_path(@user, @attendance), local: true) do |f| %> 
+                    <%= f.fields_for "attendances[]", attendance do |t| %>
+                      <%= t.select :app_name, User.where.not(id: current_user.id).where(superior: true).pluck(:name) %><br><br>
+                      <%= t.submit "申請", class: "btn btn-default btn-primary form-control" %>
+                    <% end %>
                   <% end %>
                 <% end %>
               <% end %>
@@ -208,9 +210,7 @@
       
     </table>
   </div>
-  
-  <%= @attendances.count %>
-  <%= @first_day %>
 
 <div id="overtime" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="overtime_admin" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="modal_one_month" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>

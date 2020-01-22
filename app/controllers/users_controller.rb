@@ -140,12 +140,24 @@ class UsersController < ApplicationController
   
   def one_month_application
     @user = User.find(params[:id])
-    @attendance = Attendance.find(params[:id])
-    Attendance.one_month_up(one_month_application_params)
-    flash[:success] = "１ヶ月分の勤怠申請を送信しました。"
+    ActiveRecord::Base.transaction do
+      if Attendance.one_month_up(one_month_application_params)
+        flash[:success] = "１ヶ月分の勤怠申請を送信しました。"
+        redirect_to @user
+      else
+        flash[:info] = "すでに申請を送ってありますので、承認をお待ちください。"
+        redirect_to @user
+      end
+    end
+  rescue ActiveRecord::RecordInvalid
+    flash[:danger] = "変更ボタンを押していないか確認してください。"
     redirect_to @user
   end
   
+  def modal_one_month
+    @user = User.find(params[:id])
+    @users = User.joins(:attendances).where.not(id: current_user).where(attendances: { app_name: current_user.name }).distinct(:name)
+  end
   
   private
   
@@ -210,6 +222,8 @@ class UsersController < ApplicationController
       end
       return superior
     end  
+    
+   
     
 
 end
