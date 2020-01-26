@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20200126103024) do
     t.string "one_app_n"
     t.string "one_change_b", default: "0"
     t.boolean "edit_next_d", default: false
+    t.string "edit_app_n"
     t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 
