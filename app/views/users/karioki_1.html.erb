@@ -44,14 +44,14 @@
               <td><%= attendance.time_field :started_at, class: "form-control" %></td>
               <td><%= attendance.time_field :finished_at, class: "form-control" %></td>
             <% end %>
-            <td><%= attendance.check_box :edit_next_d,:as => :boolean, checked: false %></td>
+            <td><%= f.check_box :edit_next_d,:as => :boolean, checked: false %></td>
             <td>
               <% if day.started_at.present? && day.finished_at.present? %>
                 <%= working_times(day.started_at, day.finished_at) %>
               <% end %>
             </td>
             <td colspan="3"><%= attendance.text_field :note, class: "form-control" %></td>
-            <td colspan="3"><%= attendance.select :edit_app_n, User.where(superior: true).where.not(id: current_user.id).pluck(:name) %></td>
+            <td colspan="3"><%= f.select :edit_app_n, User.where(superior: true).where.not(id: current_user.id).pluck(:name) %></td>
           </tr>
         <% end %>
       <% end %>
@@ -65,3 +65,33 @@
     <%= f.submit "編集を保存する", class: "btn btn-lg btn-default" %>
   </div>
 <% end %>
+
+
+
+<!--　コントローラー >
+  def update_one_month
+    raise
+    ActiveRecord::Base.transaction do
+      if attendances_invalid?
+        attendances_params.each do |id, item|
+          attendance = Attendance.find(id)
+          attendance.update_attributes!(item)
+        end
+        flash[:success] = "1ヶ月分の勤怠情報を更新しました。"
+        redirect_to user_url(date: params[:date])
+      else
+        flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+        redirect_to attendances_edit_one_month_user_url(date: params[:date])
+      end
+    end
+  rescue ActiveRecord::RecordInvalid
+      flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+      redirect_to attendances_edit_one_month_user_url(date: params[:date])
+  end
+  
+        elsif admin_params[:change_button] == "1" && admin_params[:app_number] == "0" || admin_params[:app_number] == "3"
+          superior = false
+          break
+        elsif admin_params[:change_button] == "0"
+          superior = false
+          break
