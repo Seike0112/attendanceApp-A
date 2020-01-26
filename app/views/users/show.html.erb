@@ -42,7 +42,16 @@
         <% else %>
           <div>【所属長承認申請のお知らせ】</div><br>
         <% end %>
-        <div>【勤怠変更申請のお知らせ】</div><br>
+        
+        <% if @edit_at_count > 0 %>
+          <div>【勤怠変更申請のお知らせ】</div><br>
+          <div><%= link_to "【所属長承認申請のお知らせ】", "#", class: 'overtime-application' %>
+            <div class="overtime-div"><%= @edit_at_count %>件の通知があります。</div>
+          </div><br>
+        <% else %>
+          <div>【勤怠変更申請のお知らせ】</div><br>
+        <% end %>
+        
         <% if @app_sub > 0 %>
           <div><%= link_to "【残業申請のお知らせ】", overtime_admin_user_path(@user), remote: true, class: 'overtime-application' %> 
             <div class="overtime-div"><%= @app_sub %>件の通知があります</div>

@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     @app_sub = User.joins(:attendances).where(attendances: {change_button: 0}).where(attendances: {overtime_application: current_user.name}).where.not(id: current_user.id).count 
     @name_ins = User.joins(:attendances).where.not(id: current_user.id).where(superior: true).pluck(:name)
     @one_month_app = User.joins(:attendances).where(attendances: { app_name: current_user.name }).where.not(id: current_user.id).where(attendances: {one_change_b: 0}).count
-    
+    @edit_at_count = Attendance.where(edit_app_n: current_user.name).where.not(finished_at: nil).where.not(user_id: current_user.id).count
   end
   
   def new

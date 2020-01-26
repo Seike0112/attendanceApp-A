@@ -33,7 +33,6 @@ class AttendancesController < ApplicationController
   end
 
   def update_one_month
-    raise
     ActiveRecord::Base.transaction do
       if attendances_invalid?
         attendances_params.each do |id, item|
@@ -83,7 +82,7 @@ class AttendancesController < ApplicationController
 
     # 1ヶ��分の勤怠情報を扱います。
     def attendances_params
-      params.require(:user).permit(attendances: [:started_at, :finished_at, :note])[:attendances]
+      params.require(:user).permit(attendances: [:started_at, :finished_at, :note, :edit_app_n, :edit_next_d])[:attendances]
     end
     
     # 1ヶ月分の残業情報を扱います。
