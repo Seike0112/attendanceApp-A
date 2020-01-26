@@ -177,6 +177,7 @@ class UsersController < ApplicationController
   
   def edit_superior
     @user = User.find(params[:id])
+    @users = User.joins(:attendances).where.not(attendances: {finished_at: nil}).where(attendances: {edit_app_n: current_user.name}).where.not(id: current_user.id).distinct(:name)
   end
   
   private
