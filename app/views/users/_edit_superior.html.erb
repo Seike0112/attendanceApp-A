@@ -7,40 +7,83 @@
         </button>
       </div>
       <div class="modal-body">
-        <% @users.each do |user| %>
-          <h1>【<%= user.name %>からの勤怠変更申請】</h1>
-          
-          <table class="table table-bordered table-striped table-condensed">
-            <thead>
-              <tr id="table-attendances">
-                <th rowspan="3">日付</th>
-                <th rowspan="3">曜日</th>
-                <th colspan="4">変更前</th>
-                <th colspan="4">変更後</th>
-                <th rowspan="3">備考</th>
-                <th rowspan="3">指示者確認㊞</th>
-                <th rowspan="3">変更</th>
-                <th rowspan="3">勤怠を確認する</th>
-              </tr>
-              <tr>
-                <th colspan="2">出社</th>
-                <th colspan="2">退社</th>
-                <th colspan="2">出社</th>
-                <th colspan="2">退社</th>
-              </tr>
-              <tr>
-                <th>時</th>
-                <th>分</th>
-                <th>時</th>
-                <th>分</th>
-                <th>時</th>
-                <th>分</th>
-                <th>時</th>
-                <th>分</th>
-              </tr>
-            </thead>
+        <%= form_with(model: @user, url: edit_superior_update_user_path(@user), local: true, method: :patch) do |f| %>
+          <% @users.each do |user| %>
+            <h1>【<%= user.name %>からの勤怠変更申請】</h1>
             
-          </table>
+            <table class="table table-bordered table-striped table-condensed">
+              <thead id="table-attendances">
+                <tr>
+                  <th rowspan="3">日付</th>
+                  <th rowspan="3">曜日</th>
+                  <th colspan="4">変更前</th>
+                  <th colspan="4">変更後</th>
+                  <th rowspan="3">備考</th>
+                  <th rowspan="3">指示者確認㊞</th>
+                  <th rowspan="3">変更</th>
+                  <th rowspan="3">勤怠を確認する</th>
+                </tr>
+                <tr>
+                  <th colspan="2">出社</th>
+                  <th colspan="2">退社</th>
+                  <th colspan="2">出社</th>
+                  <th colspan="2">退社</th>
+                </tr>
+                <tr>
+                  <th>時</th>
+                  <th>分</th>
+                  <th>時</th>
+                  <th>分</th>
+                  <th>時</th>
+                  <th>分</th>
+                  <th>時</th>
+                  <th>分</th>
+                </tr>
+              </thead>
+              
+              
+              <% @attendances.each do |attendance| %>
+                <tbody id="table-attendances">
+                  <tr>
+                    <td><%= l(attendance.worked_on, format: :short) %></td>
+                    <td>
+                      <% if attendance.worked_on.wday == 6 %>
+                        <font color="blue">土</font>
+                      <% elsif attendance.worked_on.wday == 0 %>
+                        <font color="red">日</font>
+                      <% elsif attendance.worked_on.wday == 1 %>
+                        <font color="black">月</font>
+                      <% elsif attendance.worked_on.wday == 2 %>
+                        <font color="black">火</font>
+                      <% elsif attendance.worked_on.wday == 3 %>
+                        <font color="black">水</font>
+                      <% elsif attendance.worked_on.wday == 4 %>
+                        <font color="black">木</font>
+                      <% elsif attendance.worked_on.wday == 5 %>
+                        <font color="black">金</font>
+                      <% end %> 
+                    </td>
+                    <td><%= l(attendance.started_at, format: :hour) if attendance.started_at.present? %></td>
+                    <td><%= l(attendance.started_at.floor_to(15.minutes), format: :minit) if attendance.started_at.present? %></td>
+                    <td><%= l(attendance.finished_at, format: :hour) if attendance.finished_at.present? %></td>
+                    <td><%= l(attendance.finished_at.floor_to(15.minutes), format: :minit) if attendance.finished_at.present? %></td>
+                    <td><%= l(attendance.edit_start, format: :hour) if attendance.edit_start.present? %></td>
+                    <td><%= l(attendance.edit_start.floor_to(15.minutes), format: :minit) if attendance.edit_start.present? %></td>
+                    <td><%= l(attendance.edit_finish, format: :hour) if attendance.edit_finish.present? %></td>
+                    <td><%= l(attendance.edit_finish.floor_to(15.minutes), format: :minit) if attendance.edit_finish.present? %></td>
+                    <%= f.fields_for "attendances[]", attendance do |at| %>
+                      <td><%= at.text_field :edit_note, class: "form-control" %></td>
+                      <td><%= at.select :edit_app_s, [['なし', 0],['承認', 1],['否認', 2],['申請中', 3]] %></td>
+                      <td><%= at.check_box :edit_change_b, :as => :boolean, checked: false %></td>
+                    <% end %>
+                    <td><%= link_to "確認する", user_path(user), class: "btn btn-md btn-primary" %></td>
+                  </tr>
+                </tbody>
+              <% end %>
+              
+            </table>
+          <% end %>
+          <%= f.submit "変更を送信する", class: "btn  btn-primary form-control" %>
         <% end %>
       </div>          
     </div>

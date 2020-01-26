@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     @app_sub = User.joins(:attendances).where(attendances: {change_button: 0}).where(attendances: {overtime_application: current_user.name}).where.not(id: current_user.id).count 
     @name_ins = User.joins(:attendances).where.not(id: current_user.id).where(superior: true).pluck(:name)
     @one_month_app = User.joins(:attendances).where(attendances: { app_name: current_user.name }).where.not(id: current_user.id).where(attendances: {one_change_b: 0}).count
-    @edit_at_count = Attendance.joins(:user).where(edit_app_n: current_user.name).where.not(finished_at: nil).where.not(user_id: current_user.id).count
+    @edit_at_count = Attendance.joins(:user).where(edit_app_n: current_user.name).where.not(edit_finish: nil).where.not(user_id: current_user.id).count
   end
   
   def new
@@ -162,6 +162,7 @@ class UsersController < ApplicationController
   
   def admin_modal_one_month
     @user = User.find(params[:id])
+    ActiveRecord::Base.transaction do
       if one_invalid 
         Attendance.admin_modal_one_up(admin_one_params)
         flash[:success] = "ユーザーからの申請を更新しました。"
@@ -170,6 +171,7 @@ class UsersController < ApplicationController
         flash[:info] = "一部の情報を「なし」か「申請中」で更新しました。今一度ご確認ください。"
         redirect_to @user
       end
+    end
   rescue ActiveRecord::RecordInvalid
     flash[:danger] = "変更ボタンを押していないか確認してください。"
     redirect_to @user
@@ -177,7 +179,25 @@ class UsersController < ApplicationController
   
   def edit_superior
     @user = User.find(params[:id])
-    @users = User.joins(:attendances).where.not(attendances: {finished_at: nil}).where(attendances: {edit_app_n: current_user.name}).where.not(id: current_user.id).distinct(:name)
+    @users = User.joins(:attendances).where.not(attendances: {edit_finish: nil}).where(attendances: {edit_app_n: current_user.name}).where.not(id: current_user.id).distinct(:name)
+    @attendances = Attendance.joins(:user).where.not(edit_finish: nil).where(edit_app_n: current_user.name).where.not(user_id: current_user.id)
+  end
+  
+  def edit_superior_update
+    @user = User.find(params[:id])
+    ActiveRecord::Base.transaction do
+      if edit_invalid
+        Attendance.edit_superior_d(edit_params)
+        flash[:success] = "ユーザーからの申請を更新しました。"
+        redirect_to @user
+      else
+        flash[:info] = "一部の情報を「なし」か「申請中」で更新しました。今一度ご確認ください。"
+        redirect_to @user
+      end
+    end
+  rescue ActiveRecord::RecordInvalid
+    flash[:danger] = "一部の情報を「なし」か「申請中」で更新しました。今一度ご確認ください。"
+    redirect_to @user
   end
   
   private
@@ -199,6 +219,11 @@ class UsersController < ApplicationController
     #１ヶ月分の勤怠申請：上長側の申請strong_params
     def admin_one_params
       params.require(:user).permit(attendances: [:one_app_n, :one_change_b])[:attendances]
+    end
+    
+    #　勤怠変更の申請：上長ユーザーの申請strong_params
+    def edit_params
+      params.require(:user).permit(attendances: [:edit_note, :edit_app_s, :edit_change_b])[:attendances]
     end
     
     def set_search
@@ -266,5 +291,21 @@ class UsersController < ApplicationController
       return one_admin
     end
     
+    def edit_invalid
+      superior = true
+      edit_params.each do |id, edit_params|
+        if edit_params[:edit_change_b] == "1" && edit_params[:edit_app_s] == "1" || edit_params[:edit_app_s] == "2"
+          superior = true
+          next
+        elsif edit_params[:edit_change_b] == "1" && edit_params[:edit_app_s] == "2" || edit_params[:edit_app_s] == "3"
+          superior = false
+          break
+        elsif edit_params[:edit_change_b] == "0"
+          superior = false
+          break
+        end
+      end
+      return superior
+    end
 
 end

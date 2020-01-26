@@ -59,7 +59,6 @@ module AttendancesHelper
   
   
   
-  
   def overtimes_true(overtime, designated_work_end_time)
     format("%.2f", (((overtime.to_time.floor_to(15.minutes) - designated_work_end_time.to_time.floor_to(15.minutes)).to_f / 60) / 60) + 24)
   end

@@ -51,7 +51,7 @@
               <% end %>
             </td>
             <td colspan="3"><%= attendance.text_field :note, class: "form-control" %></td>
-            <td colspan="3"><%= attendance.select :edit_app_n, User.where(superior: true).where.not(id: current_user.id).pluck(:name) %></td>
+            <td colspan="3"><%= attendance.select :edit_app_n, User.where(superior: true).where.not(id: current_user.id).pluck(:name),include_blank: true  %></td>
           </tr>
         <% end %>
       <% end %>

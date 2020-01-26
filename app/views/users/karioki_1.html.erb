@@ -95,3 +95,11 @@
         elsif admin_params[:change_button] == "0"
           superior = false
           break
+          
+          
+          elsif edit_params[:edit_change_b] == "1" && edit_params[:edit_app_s] == "2" || edit_params[:edit_app_s] == "3"
+          superior = false
+          break
+        elsif edit_params[:edit_change_b] == "0"
+          superior = false
+          break

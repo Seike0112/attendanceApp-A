@@ -40,4 +40,11 @@ class Attendance < ApplicationRecord
     end
   end
   
+  def self.edit_superior_d(edit_params)
+    edit_params.to_h.map do |id, edit_params|
+      edit_superior = self.find(id)
+      edit_superior.update_attributes!(edit_params)
+    end
+  end
+  
 end
