@@ -31,6 +31,8 @@ ActiveRecord::Schema.define(version: 20200126103024) do
     t.string "one_change_b", default: "0"
     t.boolean "edit_next_d", default: false
     t.string "edit_app_n"
+    t.datetime "edit_start"
+    t.datetime "edit_finish"
     t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 
@@ -51,12 +53,12 @@ ActiveRecord::Schema.define(version: 20200126103024) do
     t.string "remember_digest"
     t.boolean "admin", default: false
     t.string "department"
-    t.datetime "basic_time", default: "2020-01-25 23:00:00"
-    t.datetime "work_time", default: "2020-01-25 22:30:00"
+    t.datetime "basic_time", default: "2020-01-26 23:00:00"
+    t.datetime "work_time", default: "2020-01-26 22:30:00"
     t.integer "employee_number"
     t.string "u_id"
-    t.datetime "designated_work_start_time", default: "2020-01-25 23:00:00"
-    t.datetime "designated_work_end_time", default: "2020-01-26 09:00:00"
+    t.datetime "designated_work_start_time", default: "2020-01-26 23:00:00"
+    t.datetime "designated_work_end_time", default: "2020-01-27 09:00:00"
     t.boolean "superior", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
