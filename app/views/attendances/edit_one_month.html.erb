@@ -38,11 +38,11 @@
               <% end %>
             </td>
             <% if current_user && (Date.current < day.worked_on) %>
-              <td><%= attendance.time_field :started_at, readonly: true, class: "form-control" %></td>
-              <td><%= attendance.time_field :finished_at, readonly: true, class: "form-control" %></td>
+              <td><%= attendance.time_field :edit_start, readonly: true, class: "form-control" %></td>
+              <td><%= attendance.time_field :edit_finish, readonly: true, class: "form-control" %></td>
             <% else %>
-              <td><%= attendance.time_field :started_at, class: "form-control" %></td>
-              <td><%= attendance.time_field :finished_at, class: "form-control" %></td>
+              <td><%= attendance.time_field :edit_start, class: "form-control" %></td>
+              <td><%= attendance.time_field :edit_finish, class: "form-control" %></td>
             <% end %>
             <td><%= attendance.check_box :edit_next_d,:as => :boolean, checked: false %></td>
             <td>

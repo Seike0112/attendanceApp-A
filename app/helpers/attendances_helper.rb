@@ -31,7 +31,21 @@ module AttendancesHelper
     return attendances
   end
   
-     
+  def edit_invalid?
+    superior = true
+    attendances_params.each do |id, item|
+      if item[:edit_start].blank? && item[:edit_finish].blank?
+        next
+      elsif item[:edit_start].blank? || item[:edit_finish].blank?
+        superior = false
+        break
+      elsif item[:edit_start] > item[:edit_finish]
+        superior = false
+        break  
+      end
+    end
+    return superior
+  end
   
   def check_judge
       if @attendance.check_botan == true 
