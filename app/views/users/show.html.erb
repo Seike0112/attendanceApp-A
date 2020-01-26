@@ -44,8 +44,7 @@
         <% end %>
         
         <% if @edit_at_count > 0 %>
-          <div>【勤怠変更申請のお知らせ】</div><br>
-          <div><%= link_to "【所属長承認申請のお知らせ】", "#", class: 'overtime-application' %>
+          <div><%= link_to "【勤怠変更申請のお知らせ】", edit_superior_user_path(@user), remote: true, class: 'overtime-application' %>
             <div class="overtime-div"><%= @edit_at_count %>件の通知があります。</div>
           </div><br>
         <% else %>
@@ -237,3 +236,4 @@
 <div id="overtime" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="overtime_admin" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <div id="modal_one_month" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="edit_superior" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>

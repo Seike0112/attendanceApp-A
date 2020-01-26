@@ -39,6 +39,9 @@ Rails.application.routes.draw do
       patch 'one_month_application'
       get 'modal_one_month'
       patch 'admin_modal_one_month'
+      # 勤怠変更申請
+      get 'edit_superior'
+      patch 'edit_superior_update'
     end
     resources :attendances, only: [:update] do
       get 'overtime'
