@@ -16,12 +16,12 @@ module AttendancesHelper
   end
   
   #翌日機能を入れた勤怠変更の計算
-  def edit_next_times(star, finish)
-    format("%.2f", (((edit_finish.floor_to(15.minutes) - edit_start.floor_to(15.minutes)) / 60) / 60.0))
+  def edit_next_times(start, finish)
+    format("%.2f", (((finish.floor_to(15.minutes) - start.floor_to(15.minutes)) / 60) / 60.0) + 24)
   end
   
   def edit_not_next(start, finish)
-    format("%.2f", (((edit_finish.to_time.floor_to(15.minutes) - edit_finish.to_time.floor_to(15.minutes)).to_f / 60) / 60) + 24)
+    format("%.2f", (((finish.floor_to(15.minutes) - start.floor_to(15.minutes)).to_f / 60) / 60))
   end
   
   def attendances_invalid?

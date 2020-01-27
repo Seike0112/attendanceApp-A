@@ -180,7 +180,7 @@ class UsersController < ApplicationController
   def edit_superior
     @user = User.find(params[:id])
     @users = User.joins(:attendances).where.not(attendances: {edit_finish: nil}).where(attendances: {edit_app_n: current_user.name}).where.not(id: current_user.id).distinct(:name)
-    @attendances = Attendance.joins(:user).where.not(edit_finish: nil).where(edit_app_n: current_user.name).where.not(user_id: current_user.id)
+    @attendances = Attendance.joins(:user).where.not(edit_finish: nil).where(edit_app_n: current_user.name).where.not(user_id: current_user.id).where(edit_change_b: "0")
   end
   
   def edit_superior_update

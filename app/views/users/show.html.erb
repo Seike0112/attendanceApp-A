@@ -130,7 +130,7 @@
                 <font color="black">金</font>
               <% end %> 
             </td>
-            <% if day.edit_finish.present? && day.edit_change_b == true %>
+            <% if day.edit_finish.present? && day.edit_change_b == true && day.edit_app_s == "1" %>
               <td><%= l(day.edit_start, format: :hour) if day.edit_start.present? %></td>
               <td><%= l(day.edit_start.floor_to(15.minutes), format: :minit) if day.edit_start.present? %></td>
               <td>
@@ -170,7 +170,11 @@
               </td>
             <% end %>
             <td>
-             <% if day.started_at.present? && day.finished_at.present? %>
+             <% if day.edit_start.present? && day.edit_finish.present? && day.edit_change_b == true && day.edit_next_d == true && day.edit_app_s == "1" %>
+               <%= edit_next_times(day.edit_start, day.edit_finish) %>
+             <% elsif day.edit_start.present? && day.edit_finish.present? && day.edit_change_b == true && day.edit_app_s == "1" && day.edit_next_d == false %>
+               <%= edit_not_next(day.edit_start, day.edit_finish) %>
+             <% elsif day.started_at.present? && day.finished_at.present? %>
                 <%= str_times = working_times(day.started_at, day.finished_at) %>
                 <% @total_working_times = @total_working_times.to_f + str_times.to_f %>
               <% end %>            
