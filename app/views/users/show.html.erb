@@ -203,7 +203,12 @@
               <% elsif day.app_number == "2" && day.change_button == "1" %>  
                  <%= day.overtime_application %>から残業否認<br>
               <% end %>
-              <% if @user.email.present? %> 
+              <% if day.edit_change_b == false && day.edit_finish %> 
+                <%= day.edit_app_n %>に勤怠申請中<br>
+              <% elsif day.edit_change_b == true && day.edit_app_s == "1" %>
+                <%= day.edit_app_n %>から申請が承認されました。<br>
+              <% elsif day.edit_change_b == true && day.edit_app_s == "2" %>
+                <%= day.edit_app_n %>から申請を否認されました。
               <% end %>
             </td>
           </tr>

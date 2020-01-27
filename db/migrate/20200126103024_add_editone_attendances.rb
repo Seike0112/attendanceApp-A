@@ -6,6 +6,6 @@ class AddEditoneAttendances < ActiveRecord::Migration[5.1]
     add_column :attendances, :edit_finish, :datetime
     add_column :attendances, :edit_note, :string
     add_column :attendances, :edit_app_s, :string
-    add_column :attendances, :edit_change_b, :boolean
+    add_column :attendances, :edit_change_b, :boolean, default: "0"
   end
 end

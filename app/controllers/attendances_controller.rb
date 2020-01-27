@@ -65,7 +65,7 @@ class AttendancesController < ApplicationController
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:attendance_id])
     check_judge
-    if @attendance.finished_at.present? 
+    if @attendance.finished_at.present? || @attendance.edit_finish.present?
       @attendance.update_attributes(overtime_params)
       flash[:success] = "#{@attendance.overtime_application}様に残業申請を送信しました。"
       redirect_to @user

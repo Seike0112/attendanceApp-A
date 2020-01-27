@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 20200126103024) do
     t.datetime "edit_finish"
     t.string "edit_note"
     t.string "edit_app_s"
-    t.boolean "edit_change_b"
+    t.boolean "edit_change_b", default: false
     t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 

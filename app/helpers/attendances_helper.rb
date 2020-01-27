@@ -15,6 +15,15 @@ module AttendancesHelper
     format("%.2f", (((finish.floor_to(15.minutes) - start.floor_to(15.minutes)) / 60) / 60.0))
   end
   
+  #翌日機能を入れた勤怠変更の計算
+  def edit_next_times(star, finish)
+    format("%.2f", (((edit_finish.floor_to(15.minutes) - edit_start.floor_to(15.minutes)) / 60) / 60.0))
+  end
+  
+  def edit_not_next(start, finish)
+    format("%.2f", (((edit_finish.to_time.floor_to(15.minutes) - edit_finish.to_time.floor_to(15.minutes)).to_f / 60) / 60) + 24)
+  end
+  
   def attendances_invalid?
     attendances = true
     attendances_params.each do |id, item|
@@ -38,10 +47,7 @@ module AttendancesHelper
         next
       elsif item[:edit_start].blank? || item[:edit_finish].blank?
         superior = false
-        break
-      elsif item[:edit_start] > item[:edit_finish]
-        superior = false
-        break  
+        break 
       end
     end
     return superior
