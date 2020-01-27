@@ -42,6 +42,8 @@ Rails.application.routes.draw do
       # 勤怠変更申請
       get 'edit_superior'
       patch 'edit_superior_update'
+      # 勤怠ログ
+      get 'at_log'
     end
     resources :attendances, only: [:update] do
       get 'overtime'

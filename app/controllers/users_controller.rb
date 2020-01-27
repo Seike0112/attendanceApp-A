@@ -200,6 +200,11 @@ class UsersController < ApplicationController
     redirect_to @user
   end
   
+  def at_log
+    @user = User.find(params[:id])
+    @attendance = Attendance.find(params[:id])
+  end
+  
   private
   
     def user_params

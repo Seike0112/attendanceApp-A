@@ -1,0 +1,9 @@
+<% provide(:title, "勤怠ログ") %>
+
+<h1>勤怠ログ</h1>
+
+  <%= form_tag(at_log_user_path, method: "get") do |f| %>
+   <%= select_tag "worked_on", options_for_select([["2018", "2018"],["2019","2019"],["2020","2020"],["2021","2021"]]), include_blank: true %>　年<br>
+  
+   <%= select_tag "worked_on", options_for_select([["1", "1"],["2","2"],["3","3"],["4","4"],["5","5"],["6","6"],["7","7"],["8","8"],["9","9"],["10","10"],["11","11"],["12","12"]]), include_blank: true %>　月<br>
+  <% end %>
