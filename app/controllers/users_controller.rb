@@ -140,10 +140,11 @@ class UsersController < ApplicationController
   
   def one_month_application
     @user = User.find(params[:id])
+    @attendance = Attendance.find(params[:id])
     ActiveRecord::Base.transaction do
       if Attendance.one_month_up(one_month_application_params)
-        flash[:success] = "１ヶ月分の勤怠申請を送信しました。"
-        redirect_to @user
+          flash[:success] = "１ヶ月分の勤怠申請を送信しました。"
+          redirect_to @user
       else
         flash[:info] = "すでに申請を送ってありますので、承認をお待ちください。"
         redirect_to @user
@@ -203,6 +204,7 @@ class UsersController < ApplicationController
   def at_log
     @user = User.find(params[:id])
     @attendance = Attendance.find(params[:id])
+    @attendances = Attendance.joins(:user).where(edit_app_s: "1").where(user_id: current_user.id)
   end
   
   private
@@ -274,6 +276,9 @@ class UsersController < ApplicationController
         elsif admin_params[:change_button] == "0"
           superior = false
           break
+        elsif admin_params[:app_number].nil?
+          superior = false
+          break
         end
       end
       return superior
@@ -291,6 +296,9 @@ class UsersController < ApplicationController
         elsif admin_one_params[:one_change_b] == "0"
           one_admin = false
           break
+        elsif admin_one_params[:one_app_n].nil?
+          one_admin = false
+          break
         end
       end
       return one_admin
@@ -306,6 +314,9 @@ class UsersController < ApplicationController
           superior = false
           break
         elsif edit_params[:edit_change_b] == "0"
+          superior = false
+          break
+        elsif edit_params[:edit_app_s].nil?
           superior = false
           break
         end

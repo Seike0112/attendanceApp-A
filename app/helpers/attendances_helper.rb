@@ -48,6 +48,9 @@ module AttendancesHelper
       elsif item[:edit_start].blank? || item[:edit_finish].blank?
         superior = false
         break 
+      elsif item[:edit_started] > item[:edit_finish]
+        attendances = false
+        break
       end
     end
     return superior

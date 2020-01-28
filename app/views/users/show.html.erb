@@ -241,7 +241,7 @@
                   <% end %>
                   <%= f.fields_for "attendances[]", attendance do |t| %>
                     <% if attendance.one_change_b == "0" %>
-                      <%= t.select :app_name, User.where.not(id: current_user.id).where(superior: true).pluck(:name), include_blank: true %><br><br>
+                      <%= t.select :app_name, User.where.not(id: current_user.id).where(superior: true).pluck(:name) %><br><br>
                       <%= t.submit "申請", class: "btn btn-default btn-primary form-control" %>
                     <% elsif attendance.one_app_n == "1" && attendance.one_change_b == "1" %>
                       <%= t.select :app_name, [["", 0]] %><br><br>

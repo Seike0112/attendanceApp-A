@@ -66,8 +66,13 @@ class AttendancesController < ApplicationController
     @attendance = Attendance.find(params[:attendance_id])
     check_judge
       @attendance.update_attributes(overtime_params)
-      flash[:success] = "#{@attendance.overtime_application}様に残業申請を送信しました。"
-      redirect_to @user
+      if @attendance.overtime_application.present?
+        flash[:success] = "#{@attendance.overtime_application}様に残業申請を送信しました。"
+        redirect_to @user
+      else
+        flash[:danger] = "再度申請を行なってください。"
+        redirect_to @user
+      end
   end
   
   

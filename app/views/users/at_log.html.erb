@@ -2,8 +2,29 @@
 
 <h1>勤怠ログ</h1>
 
-  <%= form_tag(at_log_user_path, method: "get") do |f| %>
-   <%= select_tag "worked_on", options_for_select([["2018", "2018"],["2019","2019"],["2020","2020"],["2021","2021"]]), include_blank: true %>　年<br>
-  
-   <%= select_tag "worked_on", options_for_select([["1", "1"],["2","2"],["3","3"],["4","4"],["5","5"],["6","6"],["7","7"],["8","8"],["9","9"],["10","10"],["11","11"],["12","12"]]), include_blank: true %>　月<br>
-  <% end %>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead id="table-attendances">
+       <tr>
+          <th>日付</th> 
+          <th>変更前出社時間</th>
+          <th>変更前退勤時間</th>
+          <th>変更後出社時間</th>
+    　　 　  <th>変更後退勤時間</th>
+    　　    <th>指示者</th>
+          <th>承認日</th>
+       </tr>
+    </thead>
+    <% @attendances.each do |at| %>
+      <% if at.edit_app_s == "1" %>
+          <tr id="table-attendances">
+              <td><%= at.worked_on %></td>
+              <td><%= l(at.started_at.floor_to(15.minutes), format: :time) if at.started_at.present? %></td>
+              <td><%= l(at.finished_at.floor_to(15.minutes), format: :time) if at.finished_at.present? %></td>
+              <td><%= l(at.edit_start.floor_to(15.minutes), format: :time) if at.edit_start.present? %></td>
+              <td><%= l(at.edit_finish.floor_to(15.minutes), format: :time) if at.edit_finish.present? %></td>
+              <td><%= at.edit_app_n %></td>
+              <td><%= l(at.updated_at, format: :long) if at.updated_at.present? %></td>
+          </tr>
+      <% end %>
+    <% end %>
+  </table>
